@@ -1,3 +1,9 @@
+# April 18, 2023
+# Code for manuscript: A Generalized Calibrated Bayesian Hierarchical Modeling Approach to Basket Trials with Multiple Endpoints
+# Results are saved in a separate .Rdata file named "var_1" 
+# To get the summarized results in the manuscript: run evaluate.R
+
+
 library(R2jags)
 library(rjags)
 library(runjags)
@@ -5,6 +11,7 @@ library(parallel)
 source('../functions.R')
 source('../p_settings.R')
 
+##=============================== JAGS CODE ================================##
 latent_BHM="
 model{
   for(j in 1:Ngroup){ 
@@ -29,6 +36,8 @@ model{
   tauE~dgamma(0.0005,0.000005)
 }
 "
+##==========================================================================##
+
 
 ##===============================Settings===================================##
 ngroup0<-c(15,15,15,15)
