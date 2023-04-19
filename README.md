@@ -10,6 +10,6 @@ This repository contains R code for implementing the generalized calibrated Baye
     * GCBHM_l/ the proposed GCBHM_l design
 * Nested/ code for implementing simulations with "nested efficacy endpoints" decribed in Section 6.2
 ### Authors and Reference
-Chi, X., Yuan, Y., Yu, Z, and Lin, R.<sup>\*</sup> (2023+). A Generalized Calibrated Bayesian Hierarchical Modeling Approach to Basket Trials with Multiple Endpoints. 
+Chi, X., Yuan, Y., Yu, Z., and Lin, R.<sup>\*</sup> (2023+). A Generalized Calibrated Bayesian Hierarchical Modeling Approach to Basket Trials with Multiple Endpoints. 
 
 
