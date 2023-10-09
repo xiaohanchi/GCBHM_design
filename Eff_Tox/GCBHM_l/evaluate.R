@@ -2,8 +2,6 @@
 # Code for manuscript: A Generalized Calibrated Bayesian Hierarchical Modeling Approach to Basket Trials with Bivariate Endpoints
 # Code for evaluating the results from GCBHM_l.R
 
-##load Rdata
-Ncons<-nrow(bmatrix) #number of constraints
 Ngroup<-4 # cancer groups/types
 nstage<-3 # trial stages(i.e.,#interim analyses=nstage-1)
 nsimu<-5000
