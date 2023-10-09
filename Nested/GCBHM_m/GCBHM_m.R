@@ -8,7 +8,7 @@
 library(rjags)
 library(runjags)
 library(parallel)
-source('../functions.R')
+source('functions.R')
 source('../p_settings.R')
 
 ##=============================== JAGS CODE ================================##
