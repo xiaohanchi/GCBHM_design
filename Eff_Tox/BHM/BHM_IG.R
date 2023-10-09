@@ -1,5 +1,6 @@
 # April 18, 2023
 # Code for manuscript: A Generalized Calibrated Bayesian Hierarchical Modeling Approach to Basket Trials with Bivariate Endpoints
+# BHM design with inv-Gamma prior
 # Results are saved in a separate .Rdata file named "var_1" 
 # To get the summarized results in the manuscript: run evaluate.R
 
