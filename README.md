@@ -5,7 +5,7 @@ This repository contains R code for implementing the generalized calibrated Baye
 
 * Eff_Tox/ code for implementing simulations with "efficacy and toxicity endpoints" decribed in Section 6.1
     * BHM/ the latent BHM design, which uses the latent variable model with a noninformative prior for $\sigma^2_r$
-    * CBHM/ the CBHM design using a single efficacy endpoint
+    * CBHM/ the CBHM$_E$ design using a single efficacy endpoint
     * CBHM_Tox/ the CBHM$_{ET}$ design, which evaluates the efficacy endpoint using the CBHM model and monitors the toxicity endpoint independently in each subtype without information borrowing
     * GCBHM_l/ the proposed GCBHM$_L$ design
 * Nested/ code for implementing simulations with "nested efficacy endpoints" decribed in Section 6.2
