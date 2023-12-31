@@ -8,8 +8,8 @@
 library(rjags)
 library(runjags)
 library(parallel)
-source('../functions.R')
-source('../p_settings.R')
+source('Eff_Tox/functions.R')
+source('Eff_Tox/p_settings.R')
 
 ##=============================== JAGS CODE ================================##
 latent_BHM="
