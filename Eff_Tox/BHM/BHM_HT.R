@@ -1,4 +1,4 @@
-# October 9, 2023
+# December 30, 2023
 # Code for manuscript: A Generalized Calibrated Bayesian Hierarchical Modeling Approach to Basket Trials with Bivariate Endpoints
 # BHM design with half-t prior
 # Results are saved in a separate .Rdata file named "var_1" 
@@ -160,7 +160,7 @@ for(t in 1:nstage){
 }
 
 ##save data
-save(Pr_futility,pr_eff,n,pE_hat_tmp,pT_hat_tmp,file="var_1.Rdata")
+save(Pr_futility,pr_eff,n,pE_hat_tmp,pT_hat_tmp,file="./Rdata/bhm_ht_1.Rdata")
 
 ##final output
 print("average number of patients used") 
