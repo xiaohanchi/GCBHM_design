@@ -37,8 +37,8 @@ library(runjags)
 library(parallel)
 
 
-source('Eff_Tox/functions.R')
-source('Eff_Tox/p_settings.R')
+source('../functions.R')
+source('../p_settings.R')
 
 ##=============================== JAGS CODE ================================##
 latent_BHM="
@@ -81,7 +81,6 @@ p_mid<-(q1+q0)/2
 p_tilde_upper<-solve.level(rho,0.6,0.2)#H1
 p_tilde_lower<-solve.level(rho,0.45,0.3)#H0
 c_f<-0.05
-nsimu<-5000
 
 jags_params<-c("muT","muE","pT","pE","sigmaT","sigmaE")# parameters of interest without sigma2
 

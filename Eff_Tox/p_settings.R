@@ -5,7 +5,7 @@
 # 01/29/2023                                                                             #
 ##########################################################################################
 
-source('functions.R')
+source('../functions.R')
 ###scenarios 
 Nscenario=39
 Ngroup=4 # cancer groups/types
