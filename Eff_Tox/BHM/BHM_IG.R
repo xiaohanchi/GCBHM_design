@@ -1,9 +1,7 @@
 # April 18, 2023
 # Code for manuscript: A Generalized Calibrated Bayesian Hierarchical Modeling Approach to Basket Trials with Bivariate Endpoints
 # BHM design with inv-Gamma prior
-# Results are saved in a separate .Rdata file named "var_1" 
-# To get the summarized results in the manuscript: run evaluate.R
-
+# Results are saved in a separate .Rdata file named "bhm_ig_1" 
 
 library(R2jags)
 library(rjags)
@@ -52,7 +50,7 @@ p_mid<-(q1+q0)/2
 p_tilde_upper<-solve.level(rho,0.6,0.2) #H_1
 p_tilde_lower<-solve.level(rho,0.45,0.3) #H_0
 c_f<-0.05
-nsimu<-5000
+
 jags_params<-c("muT","muE","pT","pE","sigma2T","sigma2E")# parameters of interest without sigma2
 
 
@@ -131,7 +129,7 @@ for(t in 1:nstage){
 }
 
 ##save
-save(Pr_futility,pr_eff,n,pE_hat_tmp,pT_hat_tmp,file="var_1.Rdata")
+save(Pr_futility,pr_eff,n,pE_hat_tmp,pT_hat_tmp,file="bhm_ig_1.Rdata")
 
 ##final output
 print("average number of patients used") 

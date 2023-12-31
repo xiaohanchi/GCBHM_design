@@ -1,8 +1,7 @@
 # December 30, 2023
 # Code for manuscript: A Generalized Calibrated Bayesian Hierarchical Modeling Approach to Basket Trials with Bivariate Endpoints
 # BHM design with half-t prior
-# Results are saved in a separate .Rdata file named "var_1" 
-# To get the summarized results in the manuscript: run evaluate.R
+# Results are saved in a separate .Rdata file named "bhm_ht_1" 
 
 ###################### version info after loading all necessary packages ######################
 # > sessionInfo()
