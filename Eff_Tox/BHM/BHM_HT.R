@@ -4,10 +4,39 @@
 # Results are saved in a separate .Rdata file named "var_1" 
 # To get the summarized results in the manuscript: run evaluate.R
 
+###################### version info after loading all necessary packages ######################
+# > sessionInfo()
+# R version 4.0.3 (2020-10-10)
+# Platform: x86_64-pc-linux-gnu (64-bit)
+# Running under: Red Hat Enterprise Linux
+# 
+# Matrix products: default
+# BLAS/LAPACK: /usr/lib64/libopenblas-r0.3.3.so
+# 
+# locale:
+#   [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+# [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+# [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+# [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+# [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+# [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+# 
+# attached base packages:
+#   [1] parallel  stats     graphics  grDevices utils     datasets  methods  
+# [8] base     
+# 
+# other attached packages:
+#   [1] runjags_2.2.1-7 rjags_4-13      coda_0.19-4    
+# 
+# loaded via a namespace (and not attached):
+#   [1] compiler_4.0.3  grid_4.0.3      lattice_0.20-41
+################################################################################################
 
 library(rjags)
 library(runjags)
 library(parallel)
+
+
 source('Eff_Tox/functions.R')
 source('Eff_Tox/p_settings.R')
 
