@@ -7,7 +7,7 @@
 
 ######################################################################################################
 #TABLE 1
-source("Eff_Tox/BHM/evaluate.R")
+source("Tables/Table1.R")
 
 source("Eff_Tox/CBHM/evaluate.R")
 
@@ -37,6 +37,29 @@ nsimu<-10
 
 
 # Run simulations # Calibrate where necessary
+############################################# BHM_IG #################################################
+# try one script, run:
+source("Eff_Tox/BHM/BHM_IG.R")
+
+# run all scenarios:
+setwd("Eff_Tox/BHM")
+run_all<-"
+sc_array=(1 10 12 37 39 28 30 31 34)
+for i in ${sc_array[@]}
+do
+
+cp BHM_HT.R BHM_HT_$i.R
+find . -name 'BHM_IG_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
+find . -name 'BHM_IG_'$i'.R' -print0 | xargs -0 perl -pi -e 's/bhm_ig_1.Rdata/bhm_ig_'$i'.Rdata/g'
+
+done"
+system(run_all)
+for(i in c(1,10,12,37,39,28,30,31,34)){
+  source(paste0("BHM_IG_",i,".R"))
+}
+system("rm BHM_IG_*")
+setwd("../")
+############################################# BHM_HT #################################################
 # try one script, run:
 source("Eff_Tox/BHM/BHM_HT.R")
 
