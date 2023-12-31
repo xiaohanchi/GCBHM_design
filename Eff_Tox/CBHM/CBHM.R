@@ -4,11 +4,40 @@
 # Results are saved in a separate .Rdata file named "var_1" 
 # To get the summarized results in the manuscript: run evaluate.R
 
-
 library(R2jags)
 library(rjags)
 library(runjags)
 library(parallel)
+
+## version information
+# > sessionInfo()
+# R version 4.0.5 (2021-03-31)
+# Platform: x86_64-conda-linux-gnu (64-bit)
+# Running under: CentOS Linux 8
+# 
+# Matrix products: default
+# BLAS/LAPACK: /dssg/home/acct-clsyzs/clsyzs/.conda/envs/cxh/lib/libopenblasp-r0.3.17.so
+# 
+# locale:
+#   [1] LC_CTYPE=C                 LC_NUMERIC=C              
+# [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+# [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+# [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+# [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+# [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+# 
+# attached base packages:
+#   [1] parallel  stats     graphics  grDevices utils     datasets  methods  
+# [8] base     
+# 
+# other attached packages:
+#   [1] runjags_2.2.1-5 R2jags_0.7-1    rjags_4-12      coda_0.19-4    
+# 
+# loaded via a namespace (and not attached):
+#   [1] compiler_4.0.5   abind_1.4-5      grid_4.0.5       boot_1.3-28     
+# [5] lattice_0.20-45  R2WinBUGS_2.1-21
+
+
 source('../functions.R')
 source('../p_settings.R')
 
