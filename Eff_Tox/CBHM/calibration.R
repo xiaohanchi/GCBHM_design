@@ -1,6 +1,7 @@
 # April 18, 2023
 # Code for manuscript: A Generalized Calibrated Bayesian Hierarchical Modeling Approach to Basket Trials with Multiple Endpoints
 # Calibrate a and b for the following simulation
+# Randomness may exist in resulted a and b
 
 source('../functions.R')
 ngroup0<-c(15,15,15,15)
@@ -33,9 +34,10 @@ calibration<-function(p1,p0,ngroup0,nstage,Ngroup,sigma2,nsimu){
   #print results
   print("calibrated value of (a, b):")
   cat(formatC(c(a,b), digits=2, format="f"), sep ="  ", "\n") 
+  return(round(c(a,b),digits = 2))
 }
 ##===========================================================================##
 #Output a and b
-calibration(p1=p1E,p0=p0E,ngroup0 = ngroup0,nstage = nstage,Ngroup = Ngroup,
+res<-calibration(p1=p1E,p0=p0E,ngroup0 = ngroup0,nstage = nstage,Ngroup = Ngroup,
             sigma2 = sigma2_c,nsimu = nsimu_c)
 

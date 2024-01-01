@@ -40,7 +40,6 @@ model{
 ngroup0<-c(15,15,15,15)
 Ngroup<-4 # #cancer groups/types
 nstage<-3 # #trial stages(i.e.,#interim analyses=nstage-1)
-rho=0.3 # correlation
 p<-p[,,1] # scenario 1
 pE<-(p[1,]+p[2,])
 pT<-(p[1,]+p[3,])

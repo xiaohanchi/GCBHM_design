@@ -1,8 +1,7 @@
 # April 18, 2023
 # Code for manuscript: A Generalized Calibrated Bayesian Hierarchical Modeling Approach to Basket Trials with Multiple Endpoints
 # First calibrate a and b using calibration.R and get the calibrated values
-# Results are saved in a separate .Rdata file named "var_1" 
-# To get the summarized results in the manuscript: run evaluate.R
+# Results are saved in a separate .Rdata file named "cbhmtox_1" 
 
 
 library(R2jags)
@@ -53,7 +52,6 @@ pT_lower<-c(0.30,0.30,0.30,0.30)
 pE_mid<-(pE_upper+pE_lower)/2
 pT_mid<-(pT_upper+pT_lower)/2
 c_f<-0.05
-nsimu<-5000
 
 muE<-mean(logit_p(pE_lower))
 muT<-logit_p(pT_lower)
@@ -139,7 +137,7 @@ for(t in 1:nstage){
 }
 
 ##save
-save(Pr_futility,pr_eff,n,p_hat_tmpE,p_hat_tmpT,file="var_1.Rdata")
+save(Pr_futility,pr_eff,n,p_hat_tmpE,p_hat_tmpT,file="Rdata/cbhmtox_1.Rdata")
 
 ##final output
 print("average number of patients used") 

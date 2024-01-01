@@ -70,7 +70,6 @@ model{
 ngroup0<-c(15,15,15,15)
 Ngroup<-4 # cancer groups/types
 nstage<-3 # trial stages(i.e.,#interim analyses=nstage-1)
-rho=0.3
 p<-p[,,1]#change scenarios by setting the index here
 pE<-(p[1,]+p[2,])
 pT<-(p[1,]+p[3,])
