@@ -135,9 +135,27 @@ setwd("../../")
 
 
 ### GCBHM_l
+setwd("Eff_Tox/GCBHM_l")
+# try one script, run:
+source("GCBHM_l.R")
 
-source("Eff_Tox/GCBHM_l/calibration.R")
-source("Eff_Tox/GCBHM_l/GCBHM_l.R")
+# run all scenarios:
+source("calibration.R") 
+run_all<-"
+sc_array=(1 10 12 37 39 28 30 31 34)
+for i in ${sc_array[@]}
+do
+  cp GCBHM_l.R GCBHM_l_$i.R
+  find . -name 'GCBHM_l_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
+  find . -name 'GCBHM_l_'$i'.R' -print0 | xargs -0 perl -pi -e 's/gcbhm_1.Rdata/gcbhm_'$i'.Rdata/g'
+done"
+system(run_all)
+for(i in c(1,10,12,37,39,28,30,31,34)){
+  source(paste0("GCBHM_l_",i,".R"))
+}
+system("rm GCBHM_l_*")
+setwd("../../")
+
 
 source("Nested/BHM/BHM.R")
 
