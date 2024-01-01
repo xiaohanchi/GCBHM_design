@@ -8,7 +8,6 @@ ngroup0<-c(15,15,15,15)
 Ngroup<-4 # #cancer groups/types
 Ncategory<-4
 nstage<-3
-rho=0
 p_tilde_upper<-solve.level(rho,0.6,0.2)
 p_tilde_lower<-solve.level(rho,0.45,0.3)
 p1E<-p_tilde_upper[1]+p_tilde_upper[2]

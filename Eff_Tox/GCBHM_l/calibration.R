@@ -6,7 +6,6 @@ source('../functions.R')
 ngroup0<-c(15,15,15,15)
 Ngroup<-4 # #cancer groups/types
 nstage<-3
-rho=0.3
 p_tilde_upper<-solve.level(rho,0.6,0.2)
 p_tilde_lower<-solve.level(rho,0.45,0.3)
 
@@ -30,16 +29,17 @@ calibration<-function(p1,p0,ngroup0,nstage,Ngroup,sigma2,nsimu){
   Hb_hetero_min<-min(Hb_hetero)
   #step3
   b<-(log(sigma2_c[1])-log(sigma2_c[2]))/(log(Hb)-log(Hb_hetero_min))
-  a<-log(sigma2_c[1])-b*log(Hb)-b*log((nstage*min(ngroup0))^(-1/2))
+  a<-log(sigma2_c[1])-b*log(Hb)
   #print results
   print("calibrated value of (a, b):")
   cat(formatC(c(a,b), digits=2, format="f"), sep ="  ", "\n") 
+  return(round(c(a,b),digits = 2))
 }
 
-print("For efficacy endpoint: ")
-calibration(p1=p1E,p0=p0E,ngroup0 = ngroup0,nstage = nstage,Ngroup = Ngroup,
+
+res_eff<-calibration(p1=p1E,p0=p0E,ngroup0 = ngroup0,nstage = nstage,Ngroup = Ngroup,
             sigma2 = sigma2_c,nsimu = nsimu_c)
-print("For toxicity endpoint: ")
-calibration(p1=p1T,p0=p0T,ngroup0 = ngroup0,nstage = nstage,Ngroup = Ngroup,
+
+res_tox<-calibration(p1=p1T,p0=p0T,ngroup0 = ngroup0,nstage = nstage,Ngroup = Ngroup,
             sigma2 = sigma2_c,nsimu = nsimu_c)
 

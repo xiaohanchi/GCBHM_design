@@ -7,7 +7,6 @@ source('../functions.R')
 ngroup0<-c(15,15,15,15)
 Ngroup<-4 # #cancer groups/types
 nstage<-3
-rho=0
 p_tilde_upper<-solve.level(rho,0.6,0.2)
 p_tilde_lower<-solve.level(rho,0.45,0.3)
 

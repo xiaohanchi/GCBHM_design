@@ -1,8 +1,7 @@
 # October 9, 2023
 # Code for manuscript: A Generalized Calibrated Bayesian Hierarchical Modeling Approach to Basket Trials with Bivariate Endpoints
 # First calibrate a and b using calibration.R and get the calibrated values
-# Results are saved in a separate .Rdata file named "var_1" 
-# To get the summarized results in the manuscript: run evaluate.R
+# Results are saved in a separate .Rdata file named "gcbhm_1" 
 
 library(rjags)
 library(runjags)
@@ -40,7 +39,6 @@ b<-c(6.04,10.13)# E & T
 ngroup0<-c(15,15,15,15)
 Ngroup<-4 # cancer groups/types
 nstage<-3 # trial stages(i.e.,#interim analyses=nstage-1)
-rho=0.3
 p<-p[,,1] #set different scenarios by changing the index here
 pE<-(p[1,]+p[2,])
 pT<-(p[1,]+p[3,])
@@ -50,7 +48,7 @@ p_mid<-(q1+q0)/2
 p_tilde_upper<-solve.level(rho,0.6,0.2)#H1
 p_tilde_lower<-solve.level(rho,0.45,0.3)#H0
 c_f<-0.05
-nsimu<-5000
+
 jags_params<-c("muT","muE","pT","pE","rho")# parameters of interest without sigma2
 
 ##===============================Simulation===================================##
@@ -87,11 +85,6 @@ for(t in 1:nstage){
   sigma2_hat[,t]<-apply(gT,1,median)
   for(i in 1:nsimu){
     data<-list(Yt=Yt[,,i],Ye=Ye[,,i],n=n[,i],Ngroup=Ngroup,tauE=tau[1,i],tauT=tau[2,i])
-    ##mcmc-rjags
-    # jagsmodel <- jags.model(textConnection(latent_model), data=data,
-    #                     n.chains=4, n.adapt = 3000)
-    # update(jagsmodel, n.iter=3000)
-    # codasamples = coda.samples(jagsmodel,variable.names=jags_params,n.iter=10000)
 
     ##mcmc-runjags
     runjagsmodel<-run.jags(model = latent_model, monitor = jags_params,data = data,
@@ -138,7 +131,7 @@ for(t in 1:nstage){
 }
 
 ##save data
-save(Pr_futility,pr_eff,n,pE_hat_tmp,pT_hat_tmp,file="var_1.Rdata")
+save(Pr_futility,pr_eff,n,pE_hat_tmp,pT_hat_tmp,file="Rdata/gcbhm_1.Rdata")
 
 ##final output
 print("average number of patients used") 
