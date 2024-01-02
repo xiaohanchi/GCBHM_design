@@ -1,54 +1,15 @@
 # October 9, 2023
 # Code for manuscript: A Generalized Calibrated Bayesian Hierarchical Modeling Approach to Basket Trials with Bivariate Endpoints
-# First calibrate a and b using calibration.R and get the calibrated values
-# Results are saved in a separate .Rdata file named "gcbhmm_1" 
-
+# Results are saved in a separate .Rdata file named "bhm_1" 
 
 library(rjags)
 library(runjags)
 library(parallel)
-source('../p_settings.R')
-
-##=============================== Functions ===================================##
-Tstat_fun<-function(y,n){
-  #input:
-  #y: vector with length of K*J, in a single trial
-  #n: vector with length of J, total samples of each groups in a single trial
-  E<-matrix(0,Ncategory,Ngroup)
-  y<-matrix(data = y,nrow = Ncategory,ncol = Ngroup,byrow = F)
-  sumy<-rowSums(y)
-  sumn<-sum(n)
-  E<-t(t(sumy))%*%n/sumn
-  if(0 %in% sumy){
-    E[which(sumy==0),]<-0.00001*n
-  }
-  Tstat<-sum((y-E)^2/E)
-  return(Tstat)
-}
-
-medianT_fun<-function(n,p){
-  #input:
-  #n: vector with length of J, total samples of each groups in a single trial
-  #p: KxJ matrix
-  #set.seed(2333)
-  y<-sapply(1:nsimu_c,function(r) sapply(1:Ngroup,function(r) rmultinom(rep(1,Ngroup),n,p[,r])))
-  Tstat<-sapply(1:nsimu_c,function(r) Tstat_fun(y[,r],n))
-  medianT<-median(Tstat)
-  return(medianT)
-}
-
-softmax_p<-function(p){
-  #p: vector with length K
-  p<-as.matrix(p)
-  result<-sapply(1:dim(p)[2],function(r) log(p[,r]/p[1,r]))
-  if(dim(p)[2]==1){
-    result<-as.vector(result)
-  }
-  return(result)
-}
+source('functions.R')
+source('p_settings.R')
 
 ##=============================== JAGS CODE ================================##
-CBHMc_model="
+BHMc_model="
 model{
 for(i in 1:Ngroup){ 
   y[(K*(i-1)+1):(K*(i-1)+K)] ~ dmulti(p[1:K,i],n[i])
@@ -60,21 +21,21 @@ for(i in 1:Ngroup){
     theta[k,i]~dnorm(mu[k],tau)
   }
 }
+
 for(k in 1:K){
-    mu[k]~dnorm(mu0,0.01)
-  }
+  mu[k]~dnorm(mu0,0.01)
+}
+sigma2<-1/tau
+tau~dgamma(0.0005,0.000005)
 }
 "
-a=-2.26
-b=9.62
-
 
 ##===============================Settings===================================##
 ngroup0<-c(15,15,15,15)
 Ngroup<-4 # cancer groups/types
 Ncategory<-4
 nstage<-3 # trial stages(i.e.,#interim analyses=nstage-1)
-p<-p[,,1]
+p<-p[,,1] #change scenarios by setting the index here
 q1<-c(0.25,0.5)
 q0<-c(0.15,0.3)
 bmatrix<-matrix(data = c(1, 0, 0,0, 1,1, 0,0),
@@ -85,13 +46,11 @@ p_mid<-(q1+q0)/2
 p_tilde_upper<-c(0.25,0.25,0.2,0.3)
 p_tilde_lower<-c(0.15,0.15,0.3,0.4)
 c_f<-0.05
-T_factor<-(min(ngroup0)*nstage)^(-1/2)#scaled T factor
-nsimu<-5000
 
 theta<-softmax_p(p)
 mu<-softmax_p(p_tilde_lower)
 mu0<-mean(mu)
-jags_params<-c("mu","theta","p")# parameters of interest without sigma2
+jags_params<-c("mu","sigma2","theta","p")# parameters of interest without sigma2
 
 ##===============================Simulation===================================##
 #initialize
@@ -103,6 +62,7 @@ trial_process0<-trial_process<-matrix(1,Ngroup,nsimu)
 stopping<-integer(0)
 y<-matrix(0,(Ngroup*Ncategory),nsimu) #collected data with **JxK** values in one column
 n<-matrix(0,Ngroup,nsimu) #initial sample size n0 with **J** values in one column
+sigma2_hat_tmp<-matrix(0,nstage,nsimu)
 sigma2_hat<-numeric(nstage)
 
 for(t in 1:nstage){
@@ -111,16 +71,10 @@ for(t in 1:nstage){
   tp_expand<-t(sapply(1:(Ngroup*Ncategory), function(r) trial_process[ceiling(r/Ncategory),]))#expand trial_process to a (JxK) x nsimu matrix
   y<-y+sapply(1:nsimu,function(r) sapply(1:Ngroup,function(r) rmultinom(rep(1,Ngroup),ngroup0,p[,r])))*tp_expand
   n<-n+ngroup0*trial_process
-  Tstat<-T_factor*sapply(1:nsimu,function(r) Tstat_fun(y = y[,r],n = n[,r]))
-  gT<-exp(a+b*log(Tstat))#sigma2 function
-  gT[which(gT==Inf)]=10^4
-  gT[which(gT==0|gT<10^(-4))]=10^(-4)
-  tau<-1/gT
-  sigma2_hat[t]<-median(gT)
   for(i in 1:nsimu){
-    data<-list(y=y[,i],n=n[,i],Ngroup=Ngroup,K=Ncategory,tau=tau[i],mu0=mu0)
+    data<-list(y=y[,i],n=n[,i],Ngroup=Ngroup,K=Ncategory,mu0=mu0)
     ##mcmc-runjags
-    runjagsmodel<-run.jags(model = CBHMc_model, monitor = jags_params,data = data,
+    runjagsmodel<-run.jags(model = BHMc_model, monitor = jags_params,data = data,
                            n.chains = 4,adapt = 2000,burnin = 5000,
                            sample = 5000,summarise = FALSE,thin = 1,method = 'rjparallel',
                            plots=FALSE,silent.jags = T)
@@ -142,6 +96,7 @@ for(t in 1:nstage){
     }
     p_hat[,,i]<-sapply(1:Ngroup, function(j) sapply(1:2, function(r) p_hat_tmp[4*(j-1)+1,i]+(r-1)*p_hat_tmp[4*(j-1)+2,i]))
     colnames(p_mcmc)<-colnames
+    sigma2_hat_tmp[t,i]<-summary$statistics["sigma2","Mean"]
     
     ##calculate futility and effective probabilities
     for(j in 1:Ngroup){
@@ -179,13 +134,14 @@ for(t in 1:nstage){
   trial_process[stopping]<-0
   if(t==nstage|sum(trial_process)==0){#final analysis
     p_hat_result<-rowMeans(p_hat_tmp)
+    sigma2_hat<-apply(sigma2_hat_tmp,1,median)
     avg_sample<-mean(colSums(n))
     break
   }
 }
 
-##save
-save(Pr_futility,pr_eff,n,p_hat,file="var_1.Rdata")
+##save data
+save(Pr_futility,pr_eff,n,p_hat,file="Rdata/bhm_1.Rdata")
 
 ##final output
 print("average number of patients used") 

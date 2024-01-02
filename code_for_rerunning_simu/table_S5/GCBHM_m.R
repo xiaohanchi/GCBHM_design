@@ -7,7 +7,7 @@
 library(rjags)
 library(runjags)
 library(parallel)
-source('../p_settings.R')
+source('p_settings.R')
 
 ##=============================== Functions ===================================##
 Tstat_fun<-function(y,n){
@@ -86,7 +86,7 @@ p_tilde_upper<-c(0.25,0.25,0.2,0.3)
 p_tilde_lower<-c(0.15,0.15,0.3,0.4)
 c_f<-0.05
 T_factor<-(min(ngroup0)*nstage)^(-1/2)#scaled T factor
-nsimu<-5000
+
 
 theta<-softmax_p(p)
 mu<-softmax_p(p_tilde_lower)
@@ -185,7 +185,7 @@ for(t in 1:nstage){
 }
 
 ##save
-save(Pr_futility,pr_eff,n,p_hat,file="var_1.Rdata")
+save(Pr_futility,pr_eff,n,p_hat,file="Rdata/gcbhmm_1.Rdata")
 
 ##final output
 print("average number of patients used") 

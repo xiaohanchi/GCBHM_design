@@ -26,6 +26,7 @@ source("code_for_tables_figures/Table_S4.R")
 
 #TABLE S5
 
+
 #TABLE S6
 
 #TABLE S7: sample size
@@ -70,7 +71,9 @@ nsimu<-10
 
 # Run simulations # Calibrate where necessary
 
-####################################### TABLE 1 & 2 AND FIGURE 1 & 2 ###########################################
+################################################# TABLE 1 & 2 ###############################################
+##### generated data also used for Figure 1 and 2, table S2, and Figure S1-S6
+
 rho=0.3
 ### BHM_IG
 # try one script, run:
@@ -451,13 +454,94 @@ for(i in c(1,10,12,37,39,28,30,31,34)){
 system("rm GCBHM_l_*")
 setwd("../../")
 
+################################################ TABLE S5 ####################################################
+#### generated data also used for table S6
+### BHM
+# try one script, run:
+setwd("code_for_rerunning_simu/table_S5/")
+source("BHM.R")
+setwd("../../")
 
-source("Nested/BHM/BHM.R")
+# run all scenarios:
+setwd("code_for_rerunning_simu/table_S5/")
+run_all<-"
+sc_array=(1 5 9 12 13 14 15 16)
+for i in ${sc_array[@]}
+do
+  cp BHM.R BHM_$i.R
+  find . -name 'BHM_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
+  find . -name 'BHM_'$i'.R' -print0 | xargs -0 perl -pi -e 's/bhm_1.Rdata/bhm_'$i'.Rdata/g'
+done"
+system(run_all)
+for(i in c(1,5,9,12:16)){
+  source(paste0("BHM_",i,".R"))
+}
+system("rm BHM_*")
+setwd("../../")
 
-source("Nested/GCBHM_l/calibration.R")
-source("Nested/GCBHM_l/GCBHM_l.R")
 
-source("Nested/GCBHM_m/calibration.R")
-source("Nested/GCBHM_m/GCBHM_m.R")
+### GCBHM_l
+# try one script, run:
+setwd("code_for_rerunning_simu/table_S5/")
+source("GCBHM_l.R")
+setwd("../../")
+
+# run all scenarios:
+setwd("code_for_rerunning_simu/table_S5/")
+source("calibration_gcbhml.R") 
+run_all<-"
+sc_array=(1 5 9 12 13 14 15 16)
+for i in ${sc_array[@]}
+do
+  cp GCBHM_l.R GCBHM_l_$i.R
+  find . -name 'GCBHM_l_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
+  find . -name 'GCBHM_l_'$i'.R' -print0 | xargs -0 perl -pi -e 's/gcbhml_1.Rdata/gcbhml_'$i'.Rdata/g'
+done"
+system(run_all)
+for(i in c(1,5,9,12:16)){
+  source(paste0("GCBHM_l_",i,".R"))
+}
+system("rm GCBHM_l_*")
+setwd("../../")
+
+
+### GCBHM_m
+# try one script, run:
+setwd("code_for_rerunning_simu/table_S5/")
+source("GCBHM_m.R")
+setwd("../../")
+
+# run all scenarios:
+setwd("code_for_rerunning_simu/table_S5/")
+source("calibration_gcbhmm.R") 
+run_all<-"
+sc_array=(1 5 9 12 13 14 15 16)
+for i in ${sc_array[@]}
+do
+  cp GCBHM_m.R GCBHM_m_$i.R
+  find . -name 'GCBHM_m_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
+  find . -name 'GCBHM_m_'$i'.R' -print0 | xargs -0 perl -pi -e 's/gcbhmm_1.Rdata/gcbhmm_'$i'.Rdata/g'
+done"
+system(run_all)
+for(i in c(1,5,9,12:16)){
+  source(paste0("GCBHM_m_",i,".R"))
+}
+system("rm GCBHM_m_*")
+setwd("../../")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
