@@ -1,0 +1,689 @@
+#FIGURE 1
+
+library(reshape)
+library(dplyr)
+library(RColorBrewer)
+library(ggplot2)
+library(ggtext)
+library(patchwork)
+############################################ Functions ################################################
+convert.list<-function(p,d){
+  dims<-dim(p)
+  if(d==3){
+    res<-lapply(1:dims[d], function(r) {
+      melt(p[,,r])
+    }) %>% do.call('rbind', .)
+    res[,1]<-as.factor(res[,1])
+    res[,2]<-as.factor(res[,2])
+    colnames(res)<-c("Endpoint","Group","p_est")
+  }else if(d==2){
+    res<-melt(p)[,c(1,3)]
+    res[,1]<-as.factor(res[,1])
+    colnames(res)<-c("Group","p_est")
+  }
+  return(res)
+}
+
+p_label <- function(m,i,n){
+  p_hat <- substitute(bold(hat(p)[i_label] == m_label),
+                      list(m_label = sprintf("%0.2f", m[i]),
+                           i_label = ceiling(i/n)))
+  as.character(as.expression(p_hat));
+}
+
+############################################ Scenario 1 ################################################
+load("Rdata/table1/bhm_ig_1.Rdata")
+p_hat_bhmE<-pE_hat_tmp
+p_hat_bhmT<-pT_hat_tmp
+load("Rdata/table1/cbhm_1.Rdata")
+p_hat_cbhmeE<-p_hat_tmpE
+load("Rdata/table1/cbhmtox_1.Rdata")
+p_hat_cbhme_toxE<-p_hat_tmpE
+p_hat_cbhme_toxT<-p_hat_tmpT
+load("Rdata/table1/gcbhm_1.Rdata")
+p_hat_cbhmlE<-pE_hat_tmp
+p_hat_cbhmlT<-pT_hat_tmp
+
+p_convert_bhm<-rbind(data.frame(convert.list(p_hat_bhmE,2),
+                                Design="1BHM",
+                                Endpoint=factor("1",levels=c("1","2"))),
+                     data.frame(convert.list(p_hat_bhmT,2),
+                                Design="1BHM",
+                                Endpoint=factor("2",levels=c("1","2"))))
+p_convert_cbhme<-data.frame(convert.list(p_hat_cbhmeE,2),
+                            Design="2CBHMe",
+                            Endpoint=factor("1",levels=c("1","2")))
+p_convert_cbhmetox<-rbind(data.frame(convert.list(p_hat_cbhme_toxE,2),
+                                     Design="3CBHM-Tox",
+                                     Endpoint=factor("1",levels=c("1","2"))),
+                          data.frame(convert.list(p_hat_cbhme_toxT,2),
+                                     Design="3CBHM-Tox",
+                                     Endpoint=factor("2",levels=c("1","2"))))
+p_convert_cbhml<-rbind(data.frame(convert.list(p_hat_cbhmlE,2),
+                                  Design="5CBHM_l",
+                                  Endpoint=factor("1",levels=c("1","2"))),
+                       data.frame(convert.list(p_hat_cbhmlT,2),
+                                  Design="5CBHM_l",
+                                  Endpoint=factor("2",levels=c("1","2"))))
+
+p_ep1_1<-rbind(dplyr::filter(p_convert_bhm,Endpoint == 1),
+               dplyr::filter(p_convert_cbhme,Endpoint == 1),
+               dplyr::filter(p_convert_cbhmetox,Endpoint == 1),
+               dplyr::filter(p_convert_cbhml,Endpoint == 1))
+p11<-ggplot(dplyr::filter(p_ep1_1,Group==4), aes(x=factor(Design),y=100*(p_est-0.45))) + 
+  geom_hline(yintercept = 0, linetype = 2, colour = "red")+
+  geom_boxplot(fill = '#A4A4A4', color = "black")+
+  scale_x_discrete(
+    name='Design',
+    labels=c(bquote(BHM[IG]),bquote(CBHM[E]),bquote(CBHM[ET]),bquote(GCBHM[L])),
+    position='bottom'
+  )+
+  scale_y_continuous(limits = c(-40,40),breaks=seq(-40,40,20))+
+  xlab("Design")+
+  ylab(bquote(paste('Bias (x',10^-2,')')))+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1),axis.title.x = element_blank())
+
+p_ep2_1<-rbind(dplyr::filter(p_convert_bhm,Endpoint == 2),
+               dplyr::filter(p_convert_cbhmetox,Endpoint == 2),
+               dplyr::filter(p_convert_cbhml,Endpoint == 2))
+p21<-ggplot(dplyr::filter(p_ep2_1,Group==4), aes(x=factor(Design),y=100*(p_est-0.3))) + 
+  geom_hline(yintercept = 0, linetype = 2, colour = "red")+
+  geom_boxplot(fill = '#A4A4A4', color = "black")+
+  scale_x_discrete(
+    name='Design',
+    labels=c(bquote(BHM[IG]),bquote(CBHM[ET]),bquote(GCBHM[L])),
+    position='bottom'
+  )+
+  scale_y_continuous(limits = c(-30,40),breaks=seq(-20,40,20))+
+  xlab("Design")+
+  ylab(bquote(paste('Bias (x',10^-2,')')))+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1),axis.title.x = element_blank())
+
+
+############################################ Scenario 2 ################################################
+load("Rdata/table1/bhm_ig_10.Rdata")
+p_hat_bhmE<-pE_hat_tmp
+p_hat_bhmT<-pT_hat_tmp
+load("Rdata/table1/cbhm_10.Rdata")
+p_hat_cbhmeE<-p_hat_tmpE
+load("Rdata/table1/cbhmtox_10.Rdata")
+p_hat_cbhme_toxE<-p_hat_tmpE
+p_hat_cbhme_toxT<-p_hat_tmpT
+load("Rdata/table1/gcbhm_10.Rdata")
+p_hat_cbhmlE<-pE_hat_tmp
+p_hat_cbhmlT<-pT_hat_tmp
+
+p_convert_bhm<-rbind(data.frame(convert.list(p_hat_bhmE,2),
+                                Design="1BHM",
+                                Endpoint=factor("1",levels=c("1","2"))),
+                     data.frame(convert.list(p_hat_bhmT,2),
+                                Design="1BHM",
+                                Endpoint=factor("2",levels=c("1","2"))))
+p_convert_cbhme<-data.frame(convert.list(p_hat_cbhmeE,2),
+                            Design="2CBHMe",
+                            Endpoint=factor("1",levels=c("1","2")))
+p_convert_cbhmetox<-rbind(data.frame(convert.list(p_hat_cbhme_toxE,2),
+                                     Design="3CBHM-Tox",
+                                     Endpoint=factor("1",levels=c("1","2"))),
+                          data.frame(convert.list(p_hat_cbhme_toxT,2),
+                                     Design="3CBHM-Tox",
+                                     Endpoint=factor("2",levels=c("1","2"))))
+p_convert_cbhml<-rbind(data.frame(convert.list(p_hat_cbhmlE,2),
+                                  Design="5CBHM_l",
+                                  Endpoint=factor("1",levels=c("1","2"))),
+                       data.frame(convert.list(p_hat_cbhmlT,2),
+                                  Design="5CBHM_l",
+                                  Endpoint=factor("2",levels=c("1","2"))))
+
+p_ep1_2<-rbind(dplyr::filter(p_convert_bhm,Endpoint == 1),
+               dplyr::filter(p_convert_cbhme,Endpoint == 1),
+               dplyr::filter(p_convert_cbhmetox,Endpoint == 1),
+               dplyr::filter(p_convert_cbhml,Endpoint == 1))
+p12<-ggplot(dplyr::filter(p_ep1_2,Group==4), aes(x=factor(Design),y=100*(p_est-0.5))) + 
+  geom_hline(yintercept = 0, linetype = 2, colour = "red")+
+  geom_boxplot(fill = '#A4A4A4', color = "black")+
+  scale_x_discrete(
+    name='Design',
+    labels=c(bquote(BHM[IG]),bquote(CBHM[E]),bquote(CBHM[ET]),bquote(GCBHM[L])),
+    position='bottom'
+  )+
+  scale_y_continuous(limits = c(-40,40),breaks=seq(-40,40,20))+
+  xlab("Design")+
+  ylab(bquote(paste('Bias (x',10^-2,')')))+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1),axis.title.x = element_blank())
+
+p_ep2_2<-rbind(dplyr::filter(p_convert_bhm,Endpoint == 2),
+               dplyr::filter(p_convert_cbhmetox,Endpoint == 2),
+               dplyr::filter(p_convert_cbhml,Endpoint == 2))
+p22<-ggplot(dplyr::filter(p_ep2_2,Group==4), aes(x=factor(Design),y=100*(p_est-0.2))) + 
+  geom_hline(yintercept = 0, linetype = 2, colour = "red")+
+  geom_boxplot(fill = '#A4A4A4', color = "black")+
+  scale_x_discrete(
+    name='Design',
+    labels=c(bquote(BHM[IG]),bquote(CBHM[ET]),bquote(GCBHM[L])),
+    position='bottom'
+  )+
+  scale_y_continuous(limits = c(-30,40),breaks=seq(-20,40,20))+
+  xlab("Design")+
+  ylab(bquote(paste('Bias (x',10^-2,')')))+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1),axis.title.x = element_blank())
+
+############################################ Scenario 3 ################################################
+load("Rdata/table1/bhm_ig_12.Rdata")
+p_hat_bhmE<-pE_hat_tmp
+p_hat_bhmT<-pT_hat_tmp
+load("Rdata/table1/cbhm_12.Rdata")
+p_hat_cbhmeE<-p_hat_tmpE
+load("Rdata/table1/cbhmtox_12.Rdata")
+p_hat_cbhme_toxE<-p_hat_tmpE
+p_hat_cbhme_toxT<-p_hat_tmpT
+load("Rdata/table1/gcbhm_12.Rdata")
+p_hat_cbhmlE<-pE_hat_tmp
+p_hat_cbhmlT<-pT_hat_tmp
+
+p_convert_bhm<-rbind(data.frame(convert.list(p_hat_bhmE,2),
+                                Design="1BHM",
+                                Endpoint=factor("1",levels=c("1","2"))),
+                     data.frame(convert.list(p_hat_bhmT,2),
+                                Design="1BHM",
+                                Endpoint=factor("2",levels=c("1","2"))))
+p_convert_cbhme<-data.frame(convert.list(p_hat_cbhmeE,2),
+                            Design="2CBHMe",
+                            Endpoint=factor("1",levels=c("1","2")))
+p_convert_cbhmetox<-rbind(data.frame(convert.list(p_hat_cbhme_toxE,2),
+                                     Design="3CBHM-Tox",
+                                     Endpoint=factor("1",levels=c("1","2"))),
+                          data.frame(convert.list(p_hat_cbhme_toxT,2),
+                                     Design="3CBHM-Tox",
+                                     Endpoint=factor("2",levels=c("1","2"))))
+p_convert_cbhml<-rbind(data.frame(convert.list(p_hat_cbhmlE,2),
+                                  Design="5CBHM_l",
+                                  Endpoint=factor("1",levels=c("1","2"))),
+                       data.frame(convert.list(p_hat_cbhmlT,2),
+                                  Design="5CBHM_l",
+                                  Endpoint=factor("2",levels=c("1","2"))))
+
+p_ep1_3<-rbind(dplyr::filter(p_convert_bhm,Endpoint == 1),
+               dplyr::filter(p_convert_cbhme,Endpoint == 1),
+               dplyr::filter(p_convert_cbhmetox,Endpoint == 1),
+               dplyr::filter(p_convert_cbhml,Endpoint == 1))
+p13<-ggplot(dplyr::filter(p_ep1_3,Group==4), aes(x=factor(Design),y=100*(p_est-0.6))) + 
+  geom_hline(yintercept = 0, linetype = 2, colour = "red")+
+  geom_boxplot(fill = '#A4A4A4', color = "black")+
+  scale_x_discrete(
+    name='Design',
+    labels=c(bquote(BHM[IG]),bquote(CBHM[E]),bquote(CBHM[ET]),bquote(GCBHM[L])),
+    position='bottom'
+  )+
+  scale_y_continuous(limits = c(-40,40),breaks=seq(-40,40,20))+
+  xlab("Design")+
+  ylab(bquote(paste('Bias (x',10^-2,')')))+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1),axis.title.x = element_blank())
+
+p_ep2_3<-rbind(dplyr::filter(p_convert_bhm,Endpoint == 2),
+               dplyr::filter(p_convert_cbhmetox,Endpoint == 2),
+               dplyr::filter(p_convert_cbhml,Endpoint == 2))
+p23<-ggplot(dplyr::filter(p_ep2_3,Group==4), aes(x=factor(Design),y=100*(p_est-0.2))) + 
+  geom_hline(yintercept = 0, linetype = 2, colour = "red")+
+  geom_boxplot(fill = '#A4A4A4', color = "black")+
+  scale_x_discrete(
+    name='Design',
+    labels=c(bquote(BHM[IG]),bquote(CBHM[ET]),bquote(GCBHM[L])),
+    position='bottom'
+  )+
+  scale_y_continuous(limits = c(-30,40),breaks=seq(-20,40,20))+
+  xlab("Design")+
+  ylab(bquote(paste('Bias (x',10^-2,')')))+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1),axis.title.x = element_blank())
+
+############################################ Scenario 4 ################################################
+load("Rdata/table1/bhm_ig_37.Rdata")
+p_hat_bhmE<-pE_hat_tmp
+p_hat_bhmT<-pT_hat_tmp
+load("Rdata/table1/cbhm_37.Rdata")
+p_hat_cbhmeE<-p_hat_tmpE
+load("Rdata/table1/cbhmtox_37.Rdata")
+p_hat_cbhme_toxE<-p_hat_tmpE
+p_hat_cbhme_toxT<-p_hat_tmpT
+load("Rdata/table1/gcbhm_37.Rdata")
+p_hat_cbhmlE<-pE_hat_tmp
+p_hat_cbhmlT<-pT_hat_tmp
+
+p_convert_bhm<-rbind(data.frame(convert.list(p_hat_bhmE,2),
+                                Design="1BHM",
+                                Endpoint=factor("1",levels=c("1","2"))),
+                     data.frame(convert.list(p_hat_bhmT,2),
+                                Design="1BHM",
+                                Endpoint=factor("2",levels=c("1","2"))))
+p_convert_cbhme<-data.frame(convert.list(p_hat_cbhmeE,2),
+                            Design="2CBHMe",
+                            Endpoint=factor("1",levels=c("1","2")))
+p_convert_cbhmetox<-rbind(data.frame(convert.list(p_hat_cbhme_toxE,2),
+                                     Design="3CBHM-Tox",
+                                     Endpoint=factor("1",levels=c("1","2"))),
+                          data.frame(convert.list(p_hat_cbhme_toxT,2),
+                                     Design="3CBHM-Tox",
+                                     Endpoint=factor("2",levels=c("1","2"))))
+p_convert_cbhml<-rbind(data.frame(convert.list(p_hat_cbhmlE,2),
+                                  Design="5CBHM_l",
+                                  Endpoint=factor("1",levels=c("1","2"))),
+                       data.frame(convert.list(p_hat_cbhmlT,2),
+                                  Design="5CBHM_l",
+                                  Endpoint=factor("2",levels=c("1","2"))))
+
+p_ep1_4<-rbind(dplyr::filter(p_convert_bhm,Endpoint == 1),
+               dplyr::filter(p_convert_cbhme,Endpoint == 1),
+               dplyr::filter(p_convert_cbhmetox,Endpoint == 1),
+               dplyr::filter(p_convert_cbhml,Endpoint == 1))
+p14<-ggplot(dplyr::filter(p_ep1_4,Group==4), aes(x=factor(Design),y=100*(p_est-0.5))) + 
+  geom_hline(yintercept = 0, linetype = 2, colour = "red")+
+  geom_boxplot(fill = '#A4A4A4', color = "black")+
+  scale_x_discrete(
+    name='Design',
+    labels=c(bquote(BHM[IG]),bquote(CBHM[E]),bquote(CBHM[ET]),bquote(GCBHM[L])),
+    position='bottom'
+  )+
+  scale_y_continuous(limits = c(-40,40),breaks=seq(-40,40,20))+
+  xlab("Design")+
+  ylab(bquote(paste('Bias (x',10^-2,')')))+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1),axis.title.x = element_blank())
+
+p_ep2_4<-rbind(dplyr::filter(p_convert_bhm,Endpoint == 2),
+               dplyr::filter(p_convert_cbhmetox,Endpoint == 2),
+               dplyr::filter(p_convert_cbhml,Endpoint == 2))
+p24<-ggplot(dplyr::filter(p_ep2_4,Group==4), aes(x=factor(Design),y=100*(p_est-0.25))) + 
+  geom_hline(yintercept = 0, linetype = 2, colour = "red")+
+  geom_boxplot(fill = '#A4A4A4', color = "black")+
+  scale_x_discrete(
+    name='Design',
+    labels=c(bquote(BHM[IG]),bquote(CBHM[ET]),bquote(GCBHM[L])),
+    position='bottom'
+  )+
+  scale_y_continuous(limits = c(-30,40),breaks=seq(-20,40,20))+
+  xlab("Design")+
+  ylab(bquote(paste('Bias (x',10^-2,')')))+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1),axis.title.x = element_blank())
+
+
+############################################ Scenario 5 ################################################
+load("Rdata/table1/bhm_ig_39.Rdata")
+p_hat_bhmE<-pE_hat_tmp
+p_hat_bhmT<-pT_hat_tmp
+load("Rdata/table1/cbhm_39.Rdata")
+p_hat_cbhmeE<-p_hat_tmpE
+load("Rdata/table1/cbhmtox_39.Rdata")
+p_hat_cbhme_toxE<-p_hat_tmpE
+p_hat_cbhme_toxT<-p_hat_tmpT
+load("Rdata/table1/gcbhm_39.Rdata")
+p_hat_cbhmlE<-pE_hat_tmp
+p_hat_cbhmlT<-pT_hat_tmp
+
+
+p_convert_bhm<-rbind(data.frame(convert.list(p_hat_bhmE,2),
+                                Design="1BHM",
+                                Endpoint=factor("1",levels=c("1","2"))),
+                     data.frame(convert.list(p_hat_bhmT,2),
+                                Design="1BHM",
+                                Endpoint=factor("2",levels=c("1","2"))))
+p_convert_cbhme<-data.frame(convert.list(p_hat_cbhmeE,2),
+                            Design="2CBHMe",
+                            Endpoint=factor("1",levels=c("1","2")))
+p_convert_cbhmetox<-rbind(data.frame(convert.list(p_hat_cbhme_toxE,2),
+                                     Design="3CBHM-Tox",
+                                     Endpoint=factor("1",levels=c("1","2"))),
+                          data.frame(convert.list(p_hat_cbhme_toxT,2),
+                                     Design="3CBHM-Tox",
+                                     Endpoint=factor("2",levels=c("1","2"))))
+p_convert_cbhml<-rbind(data.frame(convert.list(p_hat_cbhmlE,2),
+                                  Design="5CBHM_l",
+                                  Endpoint=factor("1",levels=c("1","2"))),
+                       data.frame(convert.list(p_hat_cbhmlT,2),
+                                  Design="5CBHM_l",
+                                  Endpoint=factor("2",levels=c("1","2"))))
+
+p_ep1_5<-rbind(dplyr::filter(p_convert_bhm,Endpoint == 1),
+               dplyr::filter(p_convert_cbhme,Endpoint == 1),
+               dplyr::filter(p_convert_cbhmetox,Endpoint == 1),
+               dplyr::filter(p_convert_cbhml,Endpoint == 1))
+p15<-ggplot(dplyr::filter(p_ep1_5,Group==4), aes(x=factor(Design),y=100*(p_est-0.65))) + 
+  geom_hline(yintercept = 0, linetype = 2, colour = "red")+
+  geom_boxplot(fill = '#A4A4A4', color = "black")+
+  scale_x_discrete(
+    name='Design',
+    labels=c(bquote(BHM[IG]),bquote(CBHM[E]),bquote(CBHM[ET]),bquote(GCBHM[L])),
+    position='bottom'
+  )+
+  scale_y_continuous(limits = c(-40,40),breaks=seq(-40,40,20))+
+  xlab("Design")+
+  ylab(bquote(paste('Bias (x',10^-2,')')))+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1),axis.title.x = element_blank())
+
+p_ep2_5<-rbind(dplyr::filter(p_convert_bhm,Endpoint == 2),
+               dplyr::filter(p_convert_cbhmetox,Endpoint == 2),
+               dplyr::filter(p_convert_cbhml,Endpoint == 2))
+p25<-ggplot(dplyr::filter(p_ep2_5,Group==4), aes(x=factor(Design),y=100*(p_est-0.25))) + 
+  geom_hline(yintercept = 0, linetype = 2, colour = "red")+
+  geom_boxplot(fill = '#A4A4A4', color = "black")+
+  scale_x_discrete(
+    name='Design',
+    labels=c(bquote(BHM[IG]),bquote(CBHM[ET]),bquote(GCBHM[L])),
+    position='bottom'
+  )+
+  scale_y_continuous(limits = c(-30,40),breaks=seq(-20,40,20))+
+  xlab("Design")+
+  ylab(bquote(paste('Bias (x',10^-2,')')))+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1),axis.title.x = element_blank())
+
+
+############################################ Scenario 6 ################################################
+load("Rdata/table1/bhm_ig_28.Rdata")
+p_hat_bhmE<-pE_hat_tmp
+p_hat_bhmT<-pT_hat_tmp
+load("Rdata/table1/cbhm_28.Rdata")
+p_hat_cbhmeE<-p_hat_tmpE
+load("Rdata/table1/cbhmtox_28.Rdata")
+p_hat_cbhme_toxE<-p_hat_tmpE
+p_hat_cbhme_toxT<-p_hat_tmpT
+load("Rdata/table1/gcbhm_28.Rdata")
+p_hat_cbhmlE<-pE_hat_tmp
+p_hat_cbhmlT<-pT_hat_tmp
+
+
+p_convert_bhm<-rbind(data.frame(convert.list(p_hat_bhmE,2),
+                                Design="1BHM",
+                                Endpoint=factor("1",levels=c("1","2"))),
+                     data.frame(convert.list(p_hat_bhmT,2),
+                                Design="1BHM",
+                                Endpoint=factor("2",levels=c("1","2"))))
+p_convert_cbhme<-data.frame(convert.list(p_hat_cbhmeE,2),
+                            Design="2CBHMe",
+                            Endpoint=factor("1",levels=c("1","2")))
+p_convert_cbhmetox<-rbind(data.frame(convert.list(p_hat_cbhme_toxE,2),
+                                     Design="3CBHM-Tox",
+                                     Endpoint=factor("1",levels=c("1","2"))),
+                          data.frame(convert.list(p_hat_cbhme_toxT,2),
+                                     Design="3CBHM-Tox",
+                                     Endpoint=factor("2",levels=c("1","2"))))
+p_convert_cbhml<-rbind(data.frame(convert.list(p_hat_cbhmlE,2),
+                                  Design="5CBHM_l",
+                                  Endpoint=factor("1",levels=c("1","2"))),
+                       data.frame(convert.list(p_hat_cbhmlT,2),
+                                  Design="5CBHM_l",
+                                  Endpoint=factor("2",levels=c("1","2"))))
+
+p_ep1_6<-rbind(dplyr::filter(p_convert_bhm,Endpoint == 1),
+               dplyr::filter(p_convert_cbhme,Endpoint == 1),
+               dplyr::filter(p_convert_cbhmetox,Endpoint == 1),
+               dplyr::filter(p_convert_cbhml,Endpoint == 1))
+p16<-ggplot(dplyr::filter(p_ep1_6,Group==4), aes(x=factor(Design),y=100*(p_est-0.60))) + 
+  geom_hline(yintercept = 0, linetype = 2, colour = "red")+
+  geom_boxplot(fill = '#A4A4A4', color = "black")+
+  scale_x_discrete(
+    name='Design',
+    labels=c(bquote(BHM[IG]),bquote(CBHM[E]),bquote(CBHM[ET]),bquote(GCBHM[L])),
+    position='bottom'
+  )+
+  scale_y_continuous(limits = c(-40,40),breaks=seq(-40,40,20))+
+  xlab("Design")+
+  ylab(bquote(paste('Bias (x',10^-2,')')))+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1),axis.title.x = element_blank())
+
+p_ep2_6<-rbind(dplyr::filter(p_convert_bhm,Endpoint == 2),
+               dplyr::filter(p_convert_cbhmetox,Endpoint == 2),
+               dplyr::filter(p_convert_cbhml,Endpoint == 2))
+p26<-ggplot(dplyr::filter(p_ep2_6,Group==4), aes(x=factor(Design),y=100*(p_est-0.2))) + 
+  geom_hline(yintercept = 0, linetype = 2, colour = "red")+
+  geom_boxplot(fill = '#A4A4A4', color = "black")+
+  scale_x_discrete(
+    name='Design',
+    labels=c(bquote(BHM[IG]),bquote(CBHM[ET]),bquote(GCBHM[L])),
+    position='bottom'
+  )+
+  scale_y_continuous(limits = c(-30,40),breaks=seq(-20,40,20))+
+  xlab("Design")+
+  ylab(bquote(paste('Bias (x',10^-2,')')))+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1),axis.title.x = element_blank())
+
+
+############################################ Scenario 7 ################################################
+load("Rdata/table1/bhm_ig_30.Rdata")
+p_hat_bhmE<-pE_hat_tmp
+p_hat_bhmT<-pT_hat_tmp
+load("Rdata/table1/cbhm_30.Rdata")
+p_hat_cbhmeE<-p_hat_tmpE
+load("Rdata/table1/cbhmtox_30.Rdata")
+p_hat_cbhme_toxE<-p_hat_tmpE
+p_hat_cbhme_toxT<-p_hat_tmpT
+load("Rdata/table1/gcbhm_30.Rdata")
+p_hat_cbhmlE<-pE_hat_tmp
+p_hat_cbhmlT<-pT_hat_tmp
+
+
+p_convert_bhm<-rbind(data.frame(convert.list(p_hat_bhmE,2),
+                                Design="1BHM",
+                                Endpoint=factor("1",levels=c("1","2"))),
+                     data.frame(convert.list(p_hat_bhmT,2),
+                                Design="1BHM",
+                                Endpoint=factor("2",levels=c("1","2"))))
+p_convert_cbhme<-data.frame(convert.list(p_hat_cbhmeE,2),
+                            Design="2CBHMe",
+                            Endpoint=factor("1",levels=c("1","2")))
+p_convert_cbhmetox<-rbind(data.frame(convert.list(p_hat_cbhme_toxE,2),
+                                     Design="3CBHM-Tox",
+                                     Endpoint=factor("1",levels=c("1","2"))),
+                          data.frame(convert.list(p_hat_cbhme_toxT,2),
+                                     Design="3CBHM-Tox",
+                                     Endpoint=factor("2",levels=c("1","2"))))
+p_convert_cbhml<-rbind(data.frame(convert.list(p_hat_cbhmlE,2),
+                                  Design="5CBHM_l",
+                                  Endpoint=factor("1",levels=c("1","2"))),
+                       data.frame(convert.list(p_hat_cbhmlT,2),
+                                  Design="5CBHM_l",
+                                  Endpoint=factor("2",levels=c("1","2"))))
+
+p_ep1_7<-rbind(dplyr::filter(p_convert_bhm,Endpoint == 1),
+               dplyr::filter(p_convert_cbhme,Endpoint == 1),
+               dplyr::filter(p_convert_cbhmetox,Endpoint == 1),
+               dplyr::filter(p_convert_cbhml,Endpoint == 1))
+p17<-ggplot(dplyr::filter(p_ep1_7,Group==4), aes(x=factor(Design),y=100*(p_est-0.6))) + 
+  geom_hline(yintercept = 0, linetype = 2, colour = "red")+
+  geom_boxplot(fill = '#A4A4A4', color = "black")+
+  scale_x_discrete(
+    name='Design',
+    labels=c(bquote(BHM[IG]),bquote(CBHM[E]),bquote(CBHM[ET]),bquote(GCBHM[L])),
+    position='bottom'
+  )+
+  scale_y_continuous(limits = c(-40,40),breaks=seq(-40,40,20))+
+  xlab("Design")+
+  ylab(bquote(paste('Bias (x',10^-2,')')))+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1),axis.title.x = element_blank())
+
+p_ep2_7<-rbind(dplyr::filter(p_convert_bhm,Endpoint == 2),
+               dplyr::filter(p_convert_cbhmetox,Endpoint == 2),
+               dplyr::filter(p_convert_cbhml,Endpoint == 2))
+p27<-ggplot(dplyr::filter(p_ep2_7,Group==4), aes(x=factor(Design),y=100*(p_est-0.2))) + 
+  geom_hline(yintercept = 0, linetype = 2, colour = "red")+
+  geom_boxplot(fill = '#A4A4A4', color = "black")+
+  scale_x_discrete(
+    name='Design',
+    labels=c(bquote(BHM[IG]),bquote(CBHM[ET]),bquote(GCBHM[L])),
+    position='bottom'
+  )+
+  scale_y_continuous(limits = c(-30,40),breaks=seq(-20,40,20))+
+  xlab("Design")+
+  ylab(bquote(paste('Bias (x',10^-2,')')))+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1),axis.title.x = element_blank())
+
+
+############################################ Scenario 8 ################################################
+load("Rdata/table1/bhm_ig_31.Rdata")
+p_hat_bhmE<-pE_hat_tmp
+p_hat_bhmT<-pT_hat_tmp
+load("Rdata/table1/cbhm_31.Rdata")
+p_hat_cbhmeE<-p_hat_tmpE
+load("Rdata/table1/cbhmtox_31.Rdata")
+p_hat_cbhme_toxE<-p_hat_tmpE
+p_hat_cbhme_toxT<-p_hat_tmpT
+load("Rdata/table1/gcbhm_31.Rdata")
+p_hat_cbhmlE<-pE_hat_tmp
+p_hat_cbhmlT<-pT_hat_tmp
+
+
+p_convert_bhm<-rbind(data.frame(convert.list(p_hat_bhmE,2),
+                                Design="1BHM",
+                                Endpoint=factor("1",levels=c("1","2"))),
+                     data.frame(convert.list(p_hat_bhmT,2),
+                                Design="1BHM",
+                                Endpoint=factor("2",levels=c("1","2"))))
+p_convert_cbhme<-data.frame(convert.list(p_hat_cbhmeE,2),
+                            Design="2CBHMe",
+                            Endpoint=factor("1",levels=c("1","2")))
+p_convert_cbhmetox<-rbind(data.frame(convert.list(p_hat_cbhme_toxE,2),
+                                     Design="3CBHM-Tox",
+                                     Endpoint=factor("1",levels=c("1","2"))),
+                          data.frame(convert.list(p_hat_cbhme_toxT,2),
+                                     Design="3CBHM-Tox",
+                                     Endpoint=factor("2",levels=c("1","2"))))
+p_convert_cbhml<-rbind(data.frame(convert.list(p_hat_cbhmlE,2),
+                                  Design="5CBHM_l",
+                                  Endpoint=factor("1",levels=c("1","2"))),
+                       data.frame(convert.list(p_hat_cbhmlT,2),
+                                  Design="5CBHM_l",
+                                  Endpoint=factor("2",levels=c("1","2"))))
+
+p_ep1_8<-rbind(dplyr::filter(p_convert_bhm,Endpoint == 1),
+               dplyr::filter(p_convert_cbhme,Endpoint == 1),
+               dplyr::filter(p_convert_cbhmetox,Endpoint == 1),
+               dplyr::filter(p_convert_cbhml,Endpoint == 1))
+p18<-ggplot(dplyr::filter(p_ep1_8,Group==4), aes(x=factor(Design),y=100*(p_est-0.6))) + 
+  geom_hline(yintercept = 0, linetype = 2, colour = "red")+
+  geom_boxplot(fill = '#A4A4A4', color = "black")+
+  scale_x_discrete(
+    name='Design',
+    labels=c(bquote(BHM[IG]),bquote(CBHM[E]),bquote(CBHM[ET]),bquote(GCBHM[L])),
+    position='bottom'
+  )+
+  scale_y_continuous(limits = c(-40,40),breaks=seq(-40,40,20))+
+  xlab("Design")+
+  ylab(bquote(paste('Bias (x',10^-2,')')))+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1),axis.title.x = element_blank())
+
+p_ep2_8<-rbind(dplyr::filter(p_convert_bhm,Endpoint == 2),
+               dplyr::filter(p_convert_cbhmetox,Endpoint == 2),
+               dplyr::filter(p_convert_cbhml,Endpoint == 2))
+p28<-ggplot(dplyr::filter(p_ep2_8,Group==4), aes(x=factor(Design),y=100*(p_est-0.2))) + 
+  geom_hline(yintercept = 0, linetype = 2, colour = "red")+
+  geom_boxplot(fill = '#A4A4A4', color = "black")+
+  scale_x_discrete(
+    name='Design',
+    labels=c(bquote(BHM[IG]),bquote(CBHM[ET]),bquote(GCBHM[L])),
+    position='bottom'
+  )+
+  scale_y_continuous(limits = c(-30,40),breaks=seq(-20,40,20))+
+  xlab("Design")+
+  ylab(bquote(paste('Bias (x',10^-2,')')))+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1),axis.title.x = element_blank())
+
+
+############################################ Scenario 9 ################################################
+load("Rdata/table1/bhm_ig_34.Rdata")
+p_hat_bhmE<-pE_hat_tmp
+p_hat_bhmT<-pT_hat_tmp
+load("Rdata/table1/cbhm_34.Rdata")
+p_hat_cbhmeE<-p_hat_tmpE
+load("Rdata/table1/cbhmtox_34.Rdata")
+p_hat_cbhme_toxE<-p_hat_tmpE
+p_hat_cbhme_toxT<-p_hat_tmpT
+load("Rdata/table1/gcbhm_34.Rdata")
+p_hat_cbhmlE<-pE_hat_tmp
+p_hat_cbhmlT<-pT_hat_tmp
+
+
+p_convert_bhm<-rbind(data.frame(convert.list(p_hat_bhmE,2),
+                                Design="1BHM",
+                                Endpoint=factor("1",levels=c("1","2"))),
+                     data.frame(convert.list(p_hat_bhmT,2),
+                                Design="1BHM",
+                                Endpoint=factor("2",levels=c("1","2"))))
+p_convert_cbhme<-data.frame(convert.list(p_hat_cbhmeE,2),
+                            Design="2CBHMe",
+                            Endpoint=factor("1",levels=c("1","2")))
+p_convert_cbhmetox<-rbind(data.frame(convert.list(p_hat_cbhme_toxE,2),
+                                     Design="3CBHM-Tox",
+                                     Endpoint=factor("1",levels=c("1","2"))),
+                          data.frame(convert.list(p_hat_cbhme_toxT,2),
+                                     Design="3CBHM-Tox",
+                                     Endpoint=factor("2",levels=c("1","2"))))
+p_convert_cbhml<-rbind(data.frame(convert.list(p_hat_cbhmlE,2),
+                                  Design="5CBHM_l",
+                                  Endpoint=factor("1",levels=c("1","2"))),
+                       data.frame(convert.list(p_hat_cbhmlT,2),
+                                  Design="5CBHM_l",
+                                  Endpoint=factor("2",levels=c("1","2"))))
+
+p_ep1_9<-rbind(dplyr::filter(p_convert_bhm,Endpoint == 1),
+               dplyr::filter(p_convert_cbhme,Endpoint == 1),
+               dplyr::filter(p_convert_cbhmetox,Endpoint == 1),
+               dplyr::filter(p_convert_cbhml,Endpoint == 1))
+p19<-ggplot(dplyr::filter(p_ep1_9,Group==4), aes(x=factor(Design),y=100*(p_est-0.6))) + 
+  geom_hline(yintercept = 0, linetype = 2, colour = "red")+
+  geom_boxplot(fill = '#A4A4A4', color = "black")+
+  scale_x_discrete(
+    name='Design',
+    labels=c(bquote(BHM[IG]),bquote(CBHM[E]),bquote(CBHM[ET]),bquote(GCBHM[L])),
+    position='bottom'
+  )+
+  scale_y_continuous(limits = c(-40,40),breaks=seq(-40,40,20))+
+  xlab("Design")+
+  ylab(bquote(paste('Bias (x',10^-2,')')))+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1),axis.title.x = element_blank())
+
+p_ep2_9<-rbind(dplyr::filter(p_convert_bhm,Endpoint == 2),
+               dplyr::filter(p_convert_cbhmetox,Endpoint == 2),
+               dplyr::filter(p_convert_cbhml,Endpoint == 2))
+p29<-ggplot(dplyr::filter(p_ep2_9,Group==4), aes(x=factor(Design),y=100*(p_est-0.2))) + 
+  geom_hline(yintercept = 0, linetype = 2, colour = "red")+
+  geom_boxplot(fill = '#A4A4A4', color = "black")+
+  scale_x_discrete(
+    name='Design',
+    labels=c(bquote(BHM[IG]),bquote(CBHM[ET]),bquote(GCBHM[L])),
+    position='bottom'
+  )+
+  scale_y_continuous(limits = c(-30,40),breaks=seq(-20,40,20))+
+  xlab("Design")+
+  ylab(bquote(paste('Bias (x',10^-2,')')))+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1),axis.title.x = element_blank())
+
+############################################ Final ################################################
+
+p_final1<-((p11+p12+p13)/(p14+p15+p16)/(p17+p18+p19))+
+  plot_annotation(tag_levels = '1', tag_prefix = '(',tag_suffix = ')')&
+  theme(plot.tag = element_text(color=brewer.pal(7,"Greys")[6]))
+
+ggsave(p_final1, file='Results/Figure_S5.pdf', width=10, height=10,dpi = 800)
+
+
+
+p_final2<-((p21+p22+p23)/(p24+p25+p26)/(p27+p28+p29))+
+  plot_annotation(tag_levels = '1', tag_prefix = '(',tag_suffix = ')')&
+  theme(plot.tag = element_text(color=brewer.pal(7,"Greys")[6]))
+
+ggsave(p_final2, file='Results/Figure_S6.pdf', width=10, height=10,dpi = 800)

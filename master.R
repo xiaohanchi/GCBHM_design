@@ -3,24 +3,50 @@
 # Set GCBHM_design-main/ as working directory
 
 # Reproduce tables and figures in the manuscript
-
 ######################################################################################################
 #TABLE 1 & 2
-source("Tables/Table1.R")
+source("code_for_tables_figures/Table1_and_2.R")
 
-source("Eff_Tox/CBHM/evaluate.R")
+#FIGURE 1 & 2
+source("code_for_tables_figures/Figure_1_2.R")
 
-source("Eff_Tox/CBHM_Tox/evaluate.R")
-
-source("Eff_Tox/GCBHM_l/evaluate.R")
-
-source("Nested/BHM/evaluate.R")
-
-source("Nested/GCBHM_l/evaluate.R")
-
-source("Nested/GCBHM_m/evaluate.R")
 
 # Reproduce tables and figures in the supplementary material
+######################################################################################################
+#TABLE S1
+
+#TABLE S2
+
+#TABLE S3
+
+#TABLE S4
+
+#TABLE S5
+
+#TABLE S6
+
+#TABLE S7
+
+#TABLE S8
+
+#TABLE S9
+
+#TABLE S10
+
+#TABLE S11
+
+#TABLE S12
+
+
+#FIGURE S1 and S2
+source("code_for_tables_figures/Figure_S1_S2.R")
+
+#FIGURE S3 and S4
+source("code_for_tables_figures/Figure_S3_S4.R")
+
+#FIGURE S5 and S6
+source("code_for_tables_figures/Figure_S5_S6.R")
+
 
 # Format tables as shown in manuscript and supplementary material
 # Name and save ALL tables and figures in the folder results/
