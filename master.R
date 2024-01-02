@@ -13,9 +13,10 @@ source("code_for_tables_figures/Figure_1_2.R")
 
 # Reproduce tables and figures in the supplementary material
 ######################################################################################################
-#TABLE S1
+#TABLE S1:?
 
 #TABLE S2
+source("code_for_tables_figures/Table_S2.R")
 
 #TABLE S3
 
