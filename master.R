@@ -70,19 +70,21 @@ nsimu<-10
 
 # Run simulations # Calibrate where necessary
 
-############################################# TABLE 1 & 2 #################################################
+####################################### TABLE 1 & 2 AND FIGURE 1 & 2 ###########################################
 rho=0.3
 ### BHM_IG
 # try one script, run:
-source("Eff_Tox/BHM/BHM_IG.R")
+setwd("code_for_rerunning_simu/table_1_2/")
+source("BHM_IG.R")
+setwd("../../")
 
 # run all scenarios:
-setwd("Eff_Tox/BHM")
+setwd("code_for_rerunning_simu/table_1_2/")
 run_all<-"
 sc_array=(1 10 12 37 39 28 30 31 34)
 for i in ${sc_array[@]}
 do
-  cp BHM_HT.R BHM_HT_$i.R
+  cp BHM_IG.R BHM_IG_$i.R
   find . -name 'BHM_IG_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
   find . -name 'BHM_IG_'$i'.R' -print0 | xargs -0 perl -pi -e 's/bhm_ig_1.Rdata/bhm_ig_'$i'.Rdata/g'
 done"
@@ -97,10 +99,12 @@ setwd("../../")
 
 ### BHM_HT
 # try one script, run:
-source("Eff_Tox/BHM/BHM_HT.R")
+setwd("code_for_rerunning_simu/table_1_2/")
+source("BHM_HT.R")
+setwd("../../")
 
 # run all scenarios:
-setwd("Eff_Tox/BHM")
+setwd("code_for_rerunning_simu/table_1_2/")
 run_all<-"
 sc_array=(1 10 12 37 39 28 30 31 34)
 for i in ${sc_array[@]}
@@ -121,11 +125,13 @@ setwd("../../")
 
 ### CBHM
 # try one script, run:
-source("Eff_Tox/CBHM/CBHM.R")
+setwd("code_for_rerunning_simu/table_1_2/")
+source("CBHM.R")
+setwd("../../")
 
 # run all scenarios:
-setwd("Eff_Tox/CBHM")
-source("calibration.R") 
+setwd("code_for_rerunning_simu/table_1_2/")
+source("calibration_cbhm.R") 
 run_all<-"
 sc_array=(1 10 12 37 39 28 30 31 34)
 for i in ${sc_array[@]}
@@ -143,35 +149,293 @@ setwd("../../")
 
 
 ### CBHM_Tox
-setwd("Eff_Tox/CBHM_Tox")
 # try one script, run:
-source("CBHM_Tox.R")
+setwd("code_for_rerunning_simu/table_1_2/")
+source("CBHMTox.R")
+setwd("../../")
 
 # run all scenarios:
-source("calibration.R") 
+setwd("code_for_rerunning_simu/table_1_2/")
+source("calibration_cbhmtox.R") 
 run_all<-"
 sc_array=(1 10 12 37 39 28 30 31 34)
 for i in ${sc_array[@]}
 do
-  cp CBHM_Tox.R CBHM_Tox_$i.R
-  find . -name 'CBHM_Tox_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
-  find . -name 'CBHM_Tox_'$i'.R' -print0 | xargs -0 perl -pi -e 's/cbhmtox_1.Rdata/cbhmtox_'$i'.Rdata/g'
+  cp CBHMTox.R CBHMTox_$i.R
+  find . -name 'CBHMTox_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
+  find . -name 'CBHMTox_'$i'.R' -print0 | xargs -0 perl -pi -e 's/cbhmtox_1.Rdata/cbhmtox_'$i'.Rdata/g'
 done"
 system(run_all)
 for(i in c(1,10,12,37,39,28,30,31,34)){
-  source(paste0("CBHM_Tox_",i,".R"))
+  source(paste0("CBHMTox_",i,".R"))
 }
-system("rm CBHM_Tox_*")
+system("rm CBHMTox_*")
 setwd("../../")
 
 
 ### GCBHM_l
-setwd("Eff_Tox/GCBHM_l")
 # try one script, run:
+setwd("code_for_rerunning_simu/table_1_2/")
 source("GCBHM_l.R")
+setwd("../../")
 
 # run all scenarios:
-source("calibration.R") 
+setwd("code_for_rerunning_simu/table_1_2/")
+source("calibration_gcbhm.R") 
+run_all<-"
+sc_array=(1 10 12 37 39 28 30 31 34)
+for i in ${sc_array[@]}
+do
+  cp GCBHM_l.R GCBHM_l_$i.R
+  find . -name 'GCBHM_l_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
+  find . -name 'GCBHM_l_'$i'.R' -print0 | xargs -0 perl -pi -e 's/gcbhm_1.Rdata/gcbhm_'$i'.Rdata/g'
+done"
+system(run_all)
+for(i in c(1,10,12,37,39,28,30,31,34)){
+  source(paste0("GCBHM_l_",i,".R"))
+}
+system("rm GCBHM_l_*")
+setwd("../../")
+
+################################################ TABLE S3 ####################################################
+rho=0
+### BHM_IG
+# try one script, run:
+setwd("code_for_rerunning_simu/table_1_2/")
+source("BHM_IG.R")
+setwd("../../")
+
+# run all scenarios:
+setwd("code_for_rerunning_simu/table_1_2/")
+run_all<-"
+sc_array=(1 10 12 37 39 28 30 31 34)
+for i in ${sc_array[@]}
+do
+  cp BHM_IG.R BHM_IG_$i.R
+  find . -name 'BHM_IG_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
+  find . -name 'BHM_IG_'$i'.R' -print0 | xargs -0 perl -pi -e 's/bhm_ig_1.Rdata/bhm_ig_'$i'.Rdata/g'
+done"
+system(run_all)
+for(i in c(1,10,12,37,39,28,30,31,34)){
+  source(paste0("BHM_IG_",i,".R"))
+}
+system("rm BHM_IG_*")
+setwd("../../")
+
+
+
+### BHM_HT
+# try one script, run:
+setwd("code_for_rerunning_simu/table_1_2/")
+source("BHM_HT.R")
+setwd("../../")
+
+# run all scenarios:
+setwd("code_for_rerunning_simu/table_1_2/")
+run_all<-"
+sc_array=(1 10 12 37 39 28 30 31 34)
+for i in ${sc_array[@]}
+do
+  cp BHM_HT.R BHM_HT_$i.R
+  find . -name 'BHM_HT_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
+  find . -name 'BHM_HT_'$i'.R' -print0 | xargs -0 perl -pi -e 's/bhm_ht_1.Rdata/bhm_ht_'$i'.Rdata/g'
+done"
+system(run_all)
+for(i in c(1,10,12,37,39,28,30,31,34)){
+  source(paste0("BHM_HT_",i,".R"))
+}
+system("rm BHM_HT_*")
+setwd("../../")
+
+
+
+
+### CBHM
+# try one script, run:
+setwd("code_for_rerunning_simu/table_1_2/")
+source("CBHM.R")
+setwd("../../")
+
+# run all scenarios:
+setwd("code_for_rerunning_simu/table_1_2/")
+source("calibration_cbhm.R") 
+run_all<-"
+sc_array=(1 10 12 37 39 28 30 31 34)
+for i in ${sc_array[@]}
+do
+  cp CBHM.R CBHM_$i.R
+  find . -name 'CBHM_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
+  find . -name 'CBHM_'$i'.R' -print0 | xargs -0 perl -pi -e 's/cbhm_1.Rdata/cbhm_'$i'.Rdata/g'
+done"
+system(run_all)
+for(i in c(1,10,12,37,39,28,30,31,34)){
+  source(paste0("CBHM_",i,".R"))
+}
+system("rm CBHM_*")
+setwd("../../")
+
+
+### CBHM_Tox
+# try one script, run:
+setwd("code_for_rerunning_simu/table_1_2/")
+source("CBHMTox.R")
+setwd("../../")
+
+# run all scenarios:
+setwd("code_for_rerunning_simu/table_1_2/")
+source("calibration_cbhmtox.R") 
+run_all<-"
+sc_array=(1 10 12 37 39 28 30 31 34)
+for i in ${sc_array[@]}
+do
+  cp CBHMTox.R CBHMTox_$i.R
+  find . -name 'CBHMTox_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
+  find . -name 'CBHMTox_'$i'.R' -print0 | xargs -0 perl -pi -e 's/cbhmtox_1.Rdata/cbhmtox_'$i'.Rdata/g'
+done"
+system(run_all)
+for(i in c(1,10,12,37,39,28,30,31,34)){
+  source(paste0("CBHMTox_",i,".R"))
+}
+system("rm CBHMTox_*")
+setwd("../../")
+
+
+### GCBHM_l
+# try one script, run:
+setwd("code_for_rerunning_simu/table_1_2/")
+source("GCBHM_l.R")
+setwd("../../")
+
+# run all scenarios:
+setwd("code_for_rerunning_simu/table_1_2/")
+source("calibration_gcbhm.R") 
+run_all<-"
+sc_array=(1 10 12 37 39 28 30 31 34)
+for i in ${sc_array[@]}
+do
+  cp GCBHM_l.R GCBHM_l_$i.R
+  find . -name 'GCBHM_l_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
+  find . -name 'GCBHM_l_'$i'.R' -print0 | xargs -0 perl -pi -e 's/gcbhm_1.Rdata/gcbhm_'$i'.Rdata/g'
+done"
+system(run_all)
+for(i in c(1,10,12,37,39,28,30,31,34)){
+  source(paste0("GCBHM_l_",i,".R"))
+}
+system("rm GCBHM_l_*")
+setwd("../../")
+
+################################################ TABLE S4 ####################################################
+rho=0.5
+### BHM_IG
+# try one script, run:
+setwd("code_for_rerunning_simu/table_1_2/")
+source("BHM_IG.R")
+setwd("../../")
+
+# run all scenarios:
+setwd("code_for_rerunning_simu/table_1_2/")
+run_all<-"
+sc_array=(1 10 12 37 39 28 30 31 34)
+for i in ${sc_array[@]}
+do
+  cp BHM_IG.R BHM_IG_$i.R
+  find . -name 'BHM_IG_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
+  find . -name 'BHM_IG_'$i'.R' -print0 | xargs -0 perl -pi -e 's/bhm_ig_1.Rdata/bhm_ig_'$i'.Rdata/g'
+done"
+system(run_all)
+for(i in c(1,10,12,37,39,28,30,31,34)){
+  source(paste0("BHM_IG_",i,".R"))
+}
+system("rm BHM_IG_*")
+setwd("../../")
+
+
+
+### BHM_HT
+# try one script, run:
+setwd("code_for_rerunning_simu/table_1_2/")
+source("BHM_HT.R")
+setwd("../../")
+
+# run all scenarios:
+setwd("code_for_rerunning_simu/table_1_2/")
+run_all<-"
+sc_array=(1 10 12 37 39 28 30 31 34)
+for i in ${sc_array[@]}
+do
+  cp BHM_HT.R BHM_HT_$i.R
+  find . -name 'BHM_HT_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
+  find . -name 'BHM_HT_'$i'.R' -print0 | xargs -0 perl -pi -e 's/bhm_ht_1.Rdata/bhm_ht_'$i'.Rdata/g'
+done"
+system(run_all)
+for(i in c(1,10,12,37,39,28,30,31,34)){
+  source(paste0("BHM_HT_",i,".R"))
+}
+system("rm BHM_HT_*")
+setwd("../../")
+
+
+
+
+### CBHM
+# try one script, run:
+setwd("code_for_rerunning_simu/table_1_2/")
+source("CBHM.R")
+setwd("../../")
+
+# run all scenarios:
+setwd("code_for_rerunning_simu/table_1_2/")
+source("calibration_cbhm.R") 
+run_all<-"
+sc_array=(1 10 12 37 39 28 30 31 34)
+for i in ${sc_array[@]}
+do
+  cp CBHM.R CBHM_$i.R
+  find . -name 'CBHM_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
+  find . -name 'CBHM_'$i'.R' -print0 | xargs -0 perl -pi -e 's/cbhm_1.Rdata/cbhm_'$i'.Rdata/g'
+done"
+system(run_all)
+for(i in c(1,10,12,37,39,28,30,31,34)){
+  source(paste0("CBHM_",i,".R"))
+}
+system("rm CBHM_*")
+setwd("../../")
+
+
+### CBHM_Tox
+# try one script, run:
+setwd("code_for_rerunning_simu/table_1_2/")
+source("CBHMTox.R")
+setwd("../../")
+
+# run all scenarios:
+setwd("code_for_rerunning_simu/table_1_2/")
+source("calibration_cbhmtox.R") 
+run_all<-"
+sc_array=(1 10 12 37 39 28 30 31 34)
+for i in ${sc_array[@]}
+do
+  cp CBHMTox.R CBHMTox_$i.R
+  find . -name 'CBHMTox_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
+  find . -name 'CBHMTox_'$i'.R' -print0 | xargs -0 perl -pi -e 's/cbhmtox_1.Rdata/cbhmtox_'$i'.Rdata/g'
+done"
+system(run_all)
+for(i in c(1,10,12,37,39,28,30,31,34)){
+  source(paste0("CBHMTox_",i,".R"))
+}
+system("rm CBHMTox_*")
+setwd("../../")
+
+
+### GCBHM_l
+# try one script, run:
+setwd("code_for_rerunning_simu/table_1_2/")
+source("GCBHM_l.R")
+setwd("../../")
+
+# run all scenarios:
+setwd("code_for_rerunning_simu/table_1_2/")
+source("calibration_gcbhm.R") 
 run_all<-"
 sc_array=(1 10 12 37 39 28 30 31 34)
 for i in ${sc_array[@]}
