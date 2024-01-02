@@ -28,11 +28,13 @@ source("code_for_tables_figures/Table_S4.R")
 
 #TABLE S6
 
-#TABLE S7
+#TABLE S7: sample size
+source("code_for_tables_figures/Table_S7.R")
 
 #TABLE S8
 
-#TABLE S9
+#TABLE S9: sample size
+source("code_for_tables_figures/Table_S9.R")
 
 #TABLE S10
 
