@@ -2,7 +2,7 @@
 # Code for manuscript: A Generalized Calibrated Bayesian Hierarchical Modeling Approach to Basket Trials with Bivariate Endpoints
 # Calibrate a and b for the following simulation
 
-source('../functions.R')
+source('functions.R')
 ngroup0<-c(15,15,15,15)
 Ngroup<-4 # #cancer groups/types
 nstage<-3
