@@ -15,12 +15,14 @@ source("code_for_tables_figures/Figure_1_2.R")
 ######################################################################################################
 #TABLE S1:?
 
-#TABLE S2
+#TABLE S2: gcbhml
 source("code_for_tables_figures/Table_S2.R")
 
-#TABLE S3
+#TABLE S3: sample size
+source("code_for_tables_figures/Table_S3.R")
 
 #TABLE S4
+source("code_for_tables_figures/Table_S4.R")
 
 #TABLE S5
 

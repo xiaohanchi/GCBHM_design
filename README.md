@@ -13,6 +13,6 @@ This repository contains R code for implementing the generalized calibrated Baye
     * GCBHM_m/ the proposed GCBHM$_M$ design
     * GCBHM_l/ the proposed GCBHM$_L$ design
 ### Authors and Reference
-Chi, X., Yuan, Y., Yu, Z., and Lin, R.<sup>\*</sup> (2023+). A Generalized Calibrated Bayesian Hierarchical Modeling Approach to Basket Trials with Multiple Endpoints. 
+Chi, X., Yuan, Y., Yu, Z., and Lin, R.<sup>\*</sup> (2024+). A Generalized Calibrated Bayesian Hierarchical Modeling Approach to Basket Trials with Multiple Endpoints. 
 
 
