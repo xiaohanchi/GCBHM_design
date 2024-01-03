@@ -42,11 +42,11 @@ source("code_for_tables_figures/Table_S9.R")
 #TABLE S10
 source("code_for_tables_figures/Table_S10.R")
 
-#TABLE S11
-
+#TABLE S11: sample size
+source("code_for_tables_figures/Table_S11.R")
 
 #TABLE S12
-
+source("code_for_tables_figures/Table_S12.R")
 
 #FIGURE S1 and S2
 source("code_for_tables_figures/Figure_S1_S2.R")
