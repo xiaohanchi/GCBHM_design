@@ -40,6 +40,7 @@ source("code_for_tables_figures/Table_S8.R")
 source("code_for_tables_figures/Table_S9.R")
 
 #TABLE S10
+source("code_for_tables_figures/Table_S10.R")
 
 #TABLE S11
 
@@ -67,7 +68,6 @@ source("code_for_tables_figures/Figure_S5_S6.R")
 # Remove command lines defining nsimu in ALL related scripts.
 
 nsimu<-10
-
 
 
 
