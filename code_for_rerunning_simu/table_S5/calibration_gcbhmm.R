@@ -31,9 +31,9 @@ medianT_fun<-function(n,p){
   return(medianT)
 }
 
-
 ngroup0<-c(15,15,15,15)
 Ngroup<-4 # #cancer groups/types
+Ncategory<-4
 nstage<-3
 q1<-c(0.25,0.5)
 q0<-c(0.15,0.3)
