@@ -34,6 +34,7 @@ source("code_for_tables_figures/Table_S6.R")
 source("code_for_tables_figures/Table_S7.R")
 
 #TABLE S8
+source("code_for_tables_figures/Table_S8.R")
 
 #TABLE S9: sample size
 source("code_for_tables_figures/Table_S9.R")
@@ -41,6 +42,7 @@ source("code_for_tables_figures/Table_S9.R")
 #TABLE S10
 
 #TABLE S11
+
 
 #TABLE S12
 
