@@ -1,11 +1,4 @@
-##########################################################################################
-# Simulation Settings with Efficacy and Toxicity Endpoints                               #
-# A total of 39 settings, 9 (1,10,12,37,39,28,31,34) of which are shown in our paper     #
-# Author: Xiaohan Chi                                                                    #
-# 01/29/2023                                                                             #
-##########################################################################################
-
-source('../functions.R')
+source('functions.R')
 ###scenarios 
 Nscenario=39
 Ngroup=4 # cancer groups/types
@@ -13,7 +6,7 @@ Ncategory=4
 rho=0.3
 p<-array(NA,dim=c(Ncategory,Ngroup,Nscenario))
 
-### Homogeneous Settings
+##homo
 eff<-rep(seq(0.45,0.60,0.05),3)
 tox<-rep(seq(0.3,0.2,-0.05),each=4)
 for(i in 1:12){
@@ -21,7 +14,7 @@ for(i in 1:12){
   p[,,i]<-matrix(level,nrow = Ncategory,ncol = Ngroup,byrow = F)
 }
 
-### Heterogeneous Settings
+##hetero
 eff<-seq(0.45,0.60,0.05)
 tox<-seq(0.14,0.32,0.06)
 for(i in 13:16){
@@ -59,7 +52,7 @@ for(i in 24:26){
                  nrow = Ncategory,ncol = Ngroup,byrow = F)
 }
 
-##27-36 
+##27-36 -- type I error plus
 p[,,27]<-matrix(c(solve.level(rho,0.45,0.3),
                   solve.level(rho,0.55,0.25),
                   solve.level(rho,0.55,0.25),
@@ -127,3 +120,13 @@ p[,,39]<-matrix(c(solve.level(rho,0.50,0.25),
                   solve.level(rho,0.60,0.25),
                   solve.level(rho,0.65,0.25)),
                 nrow = Ncategory,ncol = Ngroup,byrow = F)
+
+
+# for(i in 1:Nscenario){
+#   if(mean(colSums(p[,,i]))!=1){
+#     cat("Wrong parameter Settings!i=",i,sep = '')
+#   }else if(i==Nscenario&mean(colSums(p[,,i]))==1){
+#     cat("Correct parameter Settings!",sep = '')
+#   }
+# }
+
