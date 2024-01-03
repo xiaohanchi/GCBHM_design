@@ -152,7 +152,11 @@ source("code_for_rerunning_simu/table_S8/run_all.R")
 
 ################################################ TABLE S9 ####################################################
 
+source("code_for_rerunning_simu/table_S9/run_all.R")
 
+################################################ TABLE S10 ####################################################
+
+source("code_for_rerunning_simu/table_S10/run_all.R")
 
 
 
