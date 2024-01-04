@@ -1,8 +1,32 @@
 #TABLE S6
-rm(list = ls())
+
+# > sessionInfo()
+# R version 4.1.2 (2021-11-01)
+# Platform: x86_64-apple-darwin17.0 (64-bit)
+# Running under: macOS 14.0
+# 
+# Matrix products: default
+# LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
+# 
+# locale:
+#   [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+# 
+# attached base packages:
+#   [1] stats     graphics  grDevices utils     datasets  methods   base     
+# 
+# other attached packages:
+#   [1] dplyr_1.1.2   reshape_0.8.8
+# 
+# loaded via a namespace (and not attached):
+#   [1] Rcpp_1.0.10       fansi_1.0.3       utf8_1.2.2        plyr_1.8.6        R6_2.5.1          lifecycle_1.0.3   magrittr_2.0.3   
+# [8] pillar_1.9.0      rlang_1.1.1       cli_3.6.0         rstudioapi_0.15.0 vctrs_0.6.3       generics_0.1.1    tools_4.1.2      
+# [15] glue_1.6.2        compiler_4.1.2    pkgconfig_2.0.3   tidyselect_1.2.0  tibble_3.2.1
 
 library(reshape)
 library(dplyr)
+
+
+
 ############################################ Functions ################################################
 convert.list<-function(p,d){
   dims<-dim(p)#used to distinguish different endpoint types saved by diff designs

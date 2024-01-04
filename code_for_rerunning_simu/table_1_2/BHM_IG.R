@@ -3,6 +3,27 @@
 # BHM design with inv-Gamma prior
 # Results are saved in a separate .Rdata file named "bhm_ig_1" 
 
+# > sessionInfo()
+# R version 4.1.2 (2021-11-01)
+# Platform: x86_64-apple-darwin17.0 (64-bit)
+# Running under: macOS 14.0
+# 
+# Matrix products: default
+# LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
+# 
+# locale:
+#   [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+# 
+# attached base packages:
+#   [1] parallel  stats     graphics  grDevices utils     datasets  methods   base     
+# 
+# other attached packages:
+#   [1] runjags_2.2.0-3 R2jags_0.7-1    rjags_4-14      coda_0.19-4    
+# 
+# loaded via a namespace (and not attached):
+#   [1] compiler_4.1.2    tools_4.1.2       abind_1.4-5       rstudioapi_0.15.0 grid_4.1.2        boot_1.3-28.1     lattice_0.20-45  
+# [8] R2WinBUGS_2.1-21 
+
 library(R2jags)
 library(rjags)
 library(runjags)

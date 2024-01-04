@@ -1,12 +1,35 @@
-#TABLE 1&2
-rm(list = ls())
+#TABLE S2
+
+# > sessionInfo()
+# R version 4.1.2 (2021-11-01)
+# Platform: x86_64-apple-darwin17.0 (64-bit)
+# Running under: macOS 14.0
+# 
+# Matrix products: default
+# LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
+# 
+# locale:
+#   [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+# 
+# attached base packages:
+#   [1] parallel  stats     grDevices utils     datasets  methods   base     
+# 
+# other attached packages:
+#   [1] doParallel_1.0.17 iterators_1.0.14  foreach_1.5.2     dplyr_1.1.2       reshape_0.8.8     R2jags_0.7-1      runjags_2.2.0-3  
+# [8] rjags_4-14        coda_0.19-4      
+# 
+# loaded via a namespace (and not attached):
+#   [1] Rcpp_1.0.10       pillar_1.9.0      compiler_4.1.2    plyr_1.8.6        tools_4.1.2       boot_1.3-28.1     lifecycle_1.0.3  
+# [8] tibble_3.2.1      gtable_0.3.1      lattice_0.20-45   pkgconfig_2.0.3   rlang_1.1.1       cli_3.6.0         rstudioapi_0.15.0
+# [15] withr_2.5.0       xml2_1.3.3        systemfonts_1.0.4 generics_0.1.1    vctrs_0.6.3       graphics_4.1.2    grid_4.1.2       
+# [22] tidyselect_1.2.0  gridtext_0.1.4    glue_1.6.2        R6_2.5.1          textshaping_0.3.6 fansi_1.0.3       farver_2.1.1     
+# [29] ggplot2_3.4.3     magrittr_2.0.3    codetools_0.2-18  scales_1.2.1      R2WinBUGS_2.1-21  abind_1.4-5       colorspace_2.0-3 
+# [36] ragg_1.2.5        utf8_1.2.2        munsell_0.5.0    
+
 
 library(reshape)
 library(dplyr)
-library(RColorBrewer)
-library(ggplot2)
-library(ggtext)
-library(patchwork)
+
 ############################################ Functions ################################################
 convert.list<-function(p,d){
   dims<-dim(p)

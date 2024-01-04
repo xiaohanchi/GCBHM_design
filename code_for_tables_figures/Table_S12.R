@@ -1,5 +1,22 @@
 #TABLE S12
 
+# > sessionInfo()
+# R version 4.1.2 (2021-11-01)
+# Platform: x86_64-apple-darwin17.0 (64-bit)
+# Running under: macOS 14.0
+# 
+# Matrix products: default
+# LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
+# 
+# locale:
+#   [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+# 
+# attached base packages:
+#   [1] stats     graphics  grDevices utils     datasets  methods   base     
+# 
+# loaded via a namespace (and not attached):
+#   [1] compiler_4.1.2    tools_4.1.2       rstudioapi_0.15.0
+
 ############################################ Settings ################################################
 Ngroup <- 4 # cancer groups/types
 nsimu <- 5000
