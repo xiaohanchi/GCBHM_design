@@ -10,12 +10,15 @@ source("code_for_tables_figures/Table1_and_2.R")
 source("code_for_tables_figures/Figure_1_2.R")
 
 # Reproduce tables and figures in the supplementary material
-#TABLE S1:?
+#TABLE S1:
+#may be time consuming as table S1 involves rerunning simulation code
+nsimu=10
+source("code_for_rerunning_simu/table_S1/run_all.R")
 
-#TABLE S2: gcbhml
+#TABLE S2
 source("code_for_tables_figures/Table_S2.R")
 
-#TABLE S3: sample size
+#TABLE S3
 source("code_for_tables_figures/Table_S3.R")
 
 #TABLE S4
@@ -27,19 +30,19 @@ source("code_for_tables_figures/Table_S5.R")
 #TABLE S6
 source("code_for_tables_figures/Table_S6.R")
 
-#TABLE S7: sample size
+#TABLE S7
 source("code_for_tables_figures/Table_S7.R")
 
 #TABLE S8
 source("code_for_tables_figures/Table_S8.R")
 
-#TABLE S9: sample size
+#TABLE S9
 source("code_for_tables_figures/Table_S9.R")
 
 #TABLE S10
 source("code_for_tables_figures/Table_S10.R")
 
-#TABLE S11: sample size
+#TABLE S11
 source("code_for_tables_figures/Table_S11.R")
 
 #TABLE S12
@@ -60,13 +63,12 @@ source("code_for_tables_figures/Figure_S5_S6.R")
 
 
 
+
 # Rerun simulations 
 # Customize number of simulations to save running time, default 5000. 
 # Remove command lines defining nsimu in ALL related scripts.
 
 nsimu<-10
-
-
 
 
 # Run simulations # Calibrate where necessary
@@ -106,6 +108,11 @@ setwd("../../")
 rho=0.3
 source("code_for_rerunning_simu/table_1_2/run_all.R")
 system("mv code_for_rerunning_simu/table_1_2/Rdata/*Rdata code_for_rerunning_simu/table_1_2/Rdata/rho0.3/")
+
+
+################################################ TABLE S1 ####################################################
+source("code_for_rerunning_simu/table_S1/run_all.R")
+
 
 ################################################ TABLE S3 ####################################################
 ################ run all scenarios:
@@ -163,6 +170,11 @@ source("code_for_rerunning_simu/table_S10/run_all.R")
 source("code_for_rerunning_simu/table_S11/run_all.R")
 
 ################################################ TABLE S12 ####################################################
+
+source("code_for_rerunning_simu/table_S12/run_all.R")
+
+
+
 
 
 

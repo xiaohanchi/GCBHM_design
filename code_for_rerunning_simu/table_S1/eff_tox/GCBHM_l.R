@@ -1,9 +1,15 @@
+# October 9, 2023
+# Code for manuscript: A Generalized Calibrated Bayesian Hierarchical Modeling Approach to Basket Trials with Bivariate Endpoints
+# First calibrate a and b using calibration.R and get the calibrated values
+
+
 library(rjags)
 library(runjags)
 library(parallel)
 source('functions.R')
 source('p_settings.R')
 
+##=============================== JAGS CODE ================================##
 latent_model="
 model{
   for(j in 1:Ngroup){ 
@@ -24,19 +30,16 @@ model{
   muE0~dnorm(0,0.01)
 }
 "
-#n=36
-a<-c(-6.16,-10.12)# E & T
-b<-c(7.10,11.42)# E & T
-#n=54
-# a<-c(-4.61,-6.99)# E & T
-# b<-c(5.25,7.93)# E & T
-##===============================Simulation===================================##
-ngroup0<-c(12,12,12,12)
-#ngroup0<-c(18,18,18,18)
+
+##===============================Settings===================================##
+#calibrated a and b
+a<-c(-5.31,-9.14)# E & T
+b<-c(6.04,10.13)# E & T
+
+ngroup0<-c(15,15,15,15)
 Ngroup<-4 # cancer groups/types
 nstage<-3 # trial stages(i.e.,#interim analyses=nstage-1)
-rho=0.3
-p<-p[,,1]
+p<-p[,,1] #set different scenarios by changing the index here
 pE<-(p[1,]+p[2,])
 pT<-(p[1,]+p[3,])
 q1<-c(0.60,0.2)#H_1
@@ -46,10 +49,9 @@ p_tilde_upper<-solve.level(rho,0.6,0.2)#H1
 p_tilde_lower<-solve.level(rho,0.45,0.3)#H0
 c_f<-0.05
 
-
 jags_params<-c("muT","muE","pT","pE","rho")# parameters of interest without sigma2
-#jags_inits<-list(theta=theta,mu=mu)# initial value 
 
+##===============================Simulation===================================##
 #initialize
 prE_futility<-prT_futility<-prE_eff<-prT_eff<-matrix(0,Ngroup,nsimu)
 Pr_futility<-array(NA,dim=c(Ngroup,nsimu,nstage))
@@ -128,6 +130,5 @@ for(t in 1:nstage){
   }
 }
 
-##save
-save(Pr_futility,pr_eff,n,pE_hat_tmp,pT_hat_tmp,file="Rdata/gcbhml_n36_1.Rdata")
+sigma_gcbhml_ep1<-round(matrix(sigma2_hat,2,nstage),digits = 2)
 

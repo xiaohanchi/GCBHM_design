@@ -3,15 +3,12 @@ This repository contains R code for implementing the generalized calibrated Baye
 
 ### Repository Contents
 
-* Eff_Tox/ code for implementing simulations with "efficacy and toxicity endpoints" described in Section 6.1
-    * BHM/ the latent BHM design, which uses the latent variable model with a noninformative prior for $\sigma^2_r$
-    * CBHM/ the CBHM$_E$ design using a single efficacy endpoint
-    * CBHM_Tox/ the CBHM$_{ET}$ design, which evaluates the efficacy endpoint using the CBHM model and monitors the toxicity endpoint independently in each subtype without information borrowing
-    * GCBHM_l/ the proposed GCBHM$_L$ design
-* Nested/ code for implementing simulations with "nested efficacy endpoints" described in Section 6.2
-    * BHM/ the BHM design, which uses the Bayesian hierarchical multi-nomial model with a noninformative prior for $\sigma^2$
-    * GCBHM_m/ the proposed GCBHM$_M$ design
-    * GCBHM_l/ the proposed GCBHM$_L$ design
+* code_for_rerunning_simu/ R code for rerunning simulations shown in the manuscript
+* code_for_tables_figures/ code for reproducing all tables and figures in main paper and supplement materials
+* Rdata/ saved intermediate results (Rdata files) in our simulation, which are used to reproduce tables and figures in paper
+* Results/ ALL tables and figures in paper
+* master.R used to give a summary of reproducing results
+
 ### Authors and Reference
 Chi, X., Yuan, Y., Yu, Z., and Lin, R.<sup>\*</sup> (2024+). A Generalized Calibrated Bayesian Hierarchical Modeling Approach to Basket Trials with Multiple Endpoints. 
 
