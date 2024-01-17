@@ -19,41 +19,41 @@ mk_single_sc2<-function(scenario){
 
 setwd("code_for_rerunning_simu/table_S1/eff_tox/")
 
-run_all<-"
-sc_array=(1 37 39 30)
-for i in ${sc_array[@]}
-do
-  cp BHM_IG.R BHM_IG_$i.R
-  find . -name 'BHM_IG_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
-done"
-system(run_all)
+# run_all<-"
+# sc_array=(1 37 39 30)
+# for i in ${sc_array[@]}
+# do
+#   cp BHM_IG.R BHM_IG_$i.R
+#   find . -name 'BHM_IG_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
+# done"
+# system(run_all)
 
-run_all<-"
-sc_array=(1 37 39 30)
-for i in ${sc_array[@]}
-do
-  cp CBHM.R CBHM_$i.R
-  find . -name 'CBHM_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
-done"
-system(run_all)
+# run_all<-"
+# sc_array=(1 37 39 30)
+# for i in ${sc_array[@]}
+# do
+#   cp CBHM.R CBHM_$i.R
+#   find . -name 'CBHM_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
+# done"
+# system(run_all)
 
-run_all<-"
-sc_array=(1 37 39 30)
-for i in ${sc_array[@]}
-do
-  cp CBHMTox.R CBHMTox_$i.R
-  find . -name 'CBHMTox_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
-done"
-system(run_all)
+# run_all<-"
+# sc_array=(1 37 39 30)
+# for i in ${sc_array[@]}
+# do
+#   cp CBHMTox.R CBHMTox_$i.R
+#   find . -name 'CBHMTox_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
+# done"
+# system(run_all)
 
-run_all<-"
-sc_array=(1 37 39 30)
-for i in ${sc_array[@]}
-do
-  cp GCBHM_l.R GCBHM_l_$i.R
-  find . -name 'GCBHM_l_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
-done"
-system(run_all)
+# run_all<-"
+# sc_array=(1 37 39 30)
+# for i in ${sc_array[@]}
+# do
+#   cp GCBHM_l.R GCBHM_l_$i.R
+#   find . -name 'GCBHM_l_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
+# done"
+# system(run_all)
 
 rho=0.3
 scenario=1
@@ -76,39 +76,39 @@ for(sc in c(37,39,30)){
   sum_res_ep1<-rbind(sum_res_ep1,mk_single_sc(scenario = scenario))
 }
 
-system("rm BHM_IG_*")
-system("rm CBHM_*")
-system("rm CBHMTox_*")
-system("rm GCBHM_l_*")
+# system("rm BHM_IG_*")
+# system("rm CBHM_*")
+# system("rm CBHMTox_*")
+# system("rm GCBHM_l_*")
 
 
 setwd("../nested/")
-run_all<-"
-sc_array=(1 12 15)
-for i in ${sc_array[@]}
-do
-  cp BHM.R BHM_$i.R
-  find . -name 'BHM_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
-done"
-system(run_all)
+# run_all<-"
+# sc_array=(1 12 15)
+# for i in ${sc_array[@]}
+# do
+#   cp BHM.R BHM_$i.R
+#   find . -name 'BHM_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
+# done"
+# system(run_all)
 
-run_all<-"
-sc_array=(1 12 15)
-for i in ${sc_array[@]}
-do
-  cp GCBHM_l.R GCBHM_l_$i.R
-  find . -name 'GCBHM_l_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
-done"
-system(run_all)
+# run_all<-"
+# sc_array=(1 12 15)
+# for i in ${sc_array[@]}
+# do
+#   cp GCBHM_l.R GCBHM_l_$i.R
+#   find . -name 'GCBHM_l_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
+# done"
+# system(run_all)
 
-run_all<-"
-sc_array=(1 12 15)
-for i in ${sc_array[@]}
-do
-  cp GCBHM_m.R GCBHM_m_$i.R
-  find . -name 'GCBHM_m_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
-done"
-system(run_all)
+# run_all<-"
+# sc_array=(1 12 15)
+# for i in ${sc_array[@]}
+# do
+#   cp GCBHM_m.R GCBHM_m_$i.R
+#   find . -name 'GCBHM_m_'$i'.R' -print0 | xargs -0 perl -pi -e \"s/p\\[,,1\\]/p\\[,,$i\\]/g\"
+# done"
+# system(run_all)
 
 scenario=1
 source(paste0("BHM_1.R"))
@@ -129,9 +129,9 @@ for(sc in c(12,15)){
 
 sum_res<-rbind(sum_res_ep1,sum_res_ep2)
 
-system("rm BHM_*")
-system("rm GCBHM_l_*")
-system("rm GCBHM_m_*")
+# system("rm BHM_*")
+# system("rm GCBHM_l_*")
+# system("rm GCBHM_m_*")
 
 setwd("../../../")
 
