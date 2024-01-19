@@ -149,7 +149,7 @@ for(t in 1:nstage){
 }
 
 ##save
-save(Pr_futility,pr_eff,n,pE_hat_tmp,pT_hat_tmp,file="Rdata/bhm_ig_1.Rdata")
+save(Pr_futility,pr_eff,n,pE_hat_tmp,pT_hat_tmp,file="Rdata/bhm_ig_37.Rdata")
 
 ##final output
 print("average number of patients used") 
