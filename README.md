@@ -41,6 +41,6 @@ loaded via a namespace (and not attached):
 
 ```
 ### Authors and Reference
-Chi, X., Yuan, Y., Yu, Z., and Lin, R.<sup>\*</sup> (2024+). A Generalized Calibrated Bayesian Hierarchical Modeling Approach to Basket Trials with Multiple Endpoints. 
+Chi, X., Yuan, Y., Yu, Z., and Lin, R.<sup>\*</sup> (2024). A Generalized Calibrated Bayesian Hierarchical Modeling Approach to Basket Trials with Multiple Endpoints. Biometrical Journal.
 
 
